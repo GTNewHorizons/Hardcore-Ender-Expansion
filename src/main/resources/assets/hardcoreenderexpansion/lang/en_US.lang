@@ -110,6 +110,7 @@ tile.laboratoryFloor.name=Laboratory Floor
 tile.laboratoryStairs.name=Laboratory Stairs
 tile.laboratoryGlass.name=Laboratory Glass
 tile.sacredStone.name=Sacred Stone
+tile.flowerPot.name=Flower Pot
 
 item.ethereum.name=Ethereum
 item.ancientDust.name=Ancient Dust
