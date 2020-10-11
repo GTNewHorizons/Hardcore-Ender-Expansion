@@ -111,6 +111,10 @@ tile.laboratoryStairs.name=Laboratory Stairs
 tile.laboratoryGlass.name=Laboratory Glass
 tile.sacredStone.name=Sacred Stone
 tile.flowerPot.name=Flower Pot
+tile.biomeIslandCore.name=Biome Island Core
+tile.brewingStand.name=Enhanced Brewing Stand
+tile.templeEndPortal.name=End Portal
+tile.laserBeam.name=Laser Beam
 
 item.ethereum.name=Ethereum
 item.ancientDust.name=Ancient Dust
