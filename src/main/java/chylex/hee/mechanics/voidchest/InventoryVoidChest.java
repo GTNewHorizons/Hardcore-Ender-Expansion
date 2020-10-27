@@ -1,77 +1,85 @@
 package chylex.hee.mechanics.voidchest;
-import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import chylex.hee.tileentity.TileEntityVoidChest;
 
-public class InventoryVoidChest extends InventoryBasic{
+public class InventoryVoidChest extends InventoryBasic {
 	private TileEntityVoidChest chest;
 
-	public InventoryVoidChest(){
-		super("container.voidChest",false,27);
+	public InventoryVoidChest() {
+		super("container.voidChest", false, 27);
 	}
-	
-	public InventoryVoidChest setChest(TileEntityVoidChest chest){
+
+	public InventoryVoidChest setChest(TileEntityVoidChest chest) {
 		this.chest = chest;
 		return this;
 	}
-	
-	public void putItemRandomly(ItemStack is, Random rand){
+
+	private static boolean isSameItem(ItemStack dis, ItemStack other) {
+		if (dis == null && other != null || dis != null && other == null)
+			return false;
+		return dis == other || dis.getItem() == other.getItem() && dis.getItemDamage() == other.getItemDamage() && ItemStack.areItemStackTagsEqual(dis, other);
+	}
+
+	public void putItem(ItemStack is) {
 		int size = getSizeInventory();
-		
-		if (is.isStackable()){
+
+		if (is.isStackable() && is.getHasSubtypes()) {
 			boolean markDirty = false;
-			
-			for(int a = 0; a < size; a++){
+
+			for (int a = 0; a < size; a++) {
 				ItemStack slotIS = getStackInSlot(a);
-				
-				if (slotIS == null || slotIS.getItem() != is.getItem() || (slotIS.getItemDamage() != is.getItemDamage() && !slotIS.getHasSubtypes()) ||
-					!ItemStack.areItemStackTagsEqual(slotIS,is) || is.getMaxStackSize() != slotIS.getMaxStackSize())continue;
-				
-				int combined = slotIS.stackSize+is.stackSize, max = is.getMaxStackSize();
-				
-				if (combined <= max){
+
+				if (!isSameItem(slotIS, is))
+					continue;
+
+				int combined = slotIS.stackSize + is.stackSize,
+						max = is.getMaxStackSize();
+
+				if (combined <= max) {
 					slotIS.stackSize = combined;
 					is.stackSize = 0;
 					markDirty();
 					return;
-				}
-				else if (slotIS.stackSize < max){
-					is.stackSize -= max-slotIS.stackSize;
+				} else if (slotIS.stackSize < max) {
+					is.stackSize -= max - slotIS.stackSize;
 					slotIS.stackSize = max;
 					markDirty = true;
 				}
 			}
-			
-			if (markDirty)markDirty();
-			if (is.stackSize == 0)return;
+
+			if (markDirty)
+				markDirty();
+
+			if (is.stackSize == 0)
+				return;
 		}
-		
-		for(int attempt = 0; attempt < 3; attempt++){
-			int slot = rand.nextInt(size);
-			
-			if (getStackInSlot(slot) == null){
-				setInventorySlotContents(slot,is);
+
+		for (int slot = 0; slot < this.getSizeInventory(); slot++) {
+			if (getStackInSlot(slot) == null) {
+				setInventorySlotContents(slot, is);
 				break;
 			}
 		}
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player){
-		return chest != null && !chest.canPlayerUse(player) ? false : super.isUseableByPlayer(player);
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return (chest == null || chest.canPlayerUse(player)) && super.isUseableByPlayer(player);
 	}
 
 	@Override
-	public void openInventory(){
-		if (chest != null)chest.addPlayerToOpenList();
+	public void openInventory() {
+		if (chest != null)
+			chest.addPlayerToOpenList();
 		super.openInventory();
 	}
 
 	@Override
-	public void closeInventory(){
-		if (chest != null)chest.removePlayerFromOpenList();
+	public void closeInventory() {
+		if (chest != null)
+			chest.removePlayerFromOpenList();
 		super.closeInventory();
 		chest = null;
 	}

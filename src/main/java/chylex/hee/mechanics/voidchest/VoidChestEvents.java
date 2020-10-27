@@ -31,7 +31,7 @@ public final class VoidChestEvents{
 					EntityItem entity = iter.next();
 					
 					if (entity.posY <= -8D){
-						voidChest.putItemRandomly(entity.getEntityItem(),e.entity.worldObj.rand);
+						voidChest.putItem(entity.getEntityItem());
 						iter.remove();
 						
 						if (!triggered){
@@ -54,7 +54,7 @@ public final class VoidChestEvents{
 	public void onItemToss(ItemTossEvent e){
 		if (!e.entity.worldObj.isRemote && e.entity.dimension == 1){
 			if (e.entity.posY <= -8D){
-				PlayerVoidChest.getInventory(e.player).putItemRandomly(e.entityItem.getEntityItem(),e.entity.worldObj.rand);
+				PlayerVoidChest.getInventory(e.player).putItem(e.entityItem.getEntityItem());
 				e.setCanceled(true);
 			}
 			else{

@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 buildscript {
     repositories {
         mavenCentral()
@@ -6,14 +8,21 @@ buildscript {
             url = "http://files.minecraftforge.net/maven"
         }
         maven {
+            name = "jitpack"
+            url = "https://jitpack.io"
+        }
+        maven {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
+
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        //Defaults to Java 8 & UTF-8 encoding
+        classpath ("com.github.GTNH2:ForgeGradle:FG_1.2-SNAPSHOT")
     }
 }
+
 
 apply plugin: 'forge'
 
@@ -52,7 +61,7 @@ String modver = ""
 
 processResources{
     File info = new File(sourceSets.main.resources.srcDirs.iterator().next(), "mcmod.info")
-    def slurp = new groovy.json.JsonSlurper()
+    def slurp = new JsonSlurper()
     def data = slurp.parseText(info.getText())[0]
     
     modid = data.modid

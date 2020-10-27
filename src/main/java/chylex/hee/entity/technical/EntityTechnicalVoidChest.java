@@ -21,10 +21,7 @@ public class EntityTechnicalVoidChest extends EntityTechnicalBase{
 	private boolean simulateFall;
 	private short age;
 	
-	public EntityTechnicalVoidChest(World world){
-		super(world);
-	}
-	
+
 	public EntityTechnicalVoidChest(World world, double x, double y, double z, EntityPlayerMP player, Collection<? extends EntityItem> items, boolean simulateFall){
 		super(world);
 		setPosition(x,y,z);
@@ -87,7 +84,7 @@ public class EntityTechnicalVoidChest extends EntityTechnicalBase{
 	}
 	
 	private void takeItem(EntityItem entity){
-		PlayerVoidChest.getInventory(player).putItemRandomly(entity.getEntityItem(),rand);
+		PlayerVoidChest.getInventory(player).putItem(entity.getEntityItem());
 		entity.setDead();
 	}
 
