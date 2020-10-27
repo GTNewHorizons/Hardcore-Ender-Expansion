@@ -25,7 +25,7 @@ public class InventoryVoidChest extends InventoryBasic {
 	public void putItem(ItemStack is) {
 		int size = getSizeInventory();
 
-		if (is.isStackable() && is.getHasSubtypes()) {
+		if (is.isStackable()) {
 			boolean markDirty = false;
 
 			for (int a = 0; a < size; a++) {
