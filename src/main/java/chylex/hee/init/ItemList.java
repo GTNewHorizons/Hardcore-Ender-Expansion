@@ -112,7 +112,7 @@ public final class ItemList{
 		register("essence", essence = new ItemEssence().setUnlocalizedName("essence"));
 		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood"));
 		register("dry_splinter", dry_splinter = new Item().setUnlocalizedName("drySplinter").setTextureName("hardcoreenderexpansion:dry_splinter"));
-		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("ectoplasm").setTextureName("hardcoreenderexpansion:ectoplasm"));
+		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("ectoplasm_").setTextureName("hardcoreenderexpansion:ectoplasm"));
 		register("spectral_tear", spectral_tear = new Item().setUnlocalizedName("spectralTear").setTextureName("hardcoreenderexpansion:spectral_tear"));
 		register("living_matter", living_matter = new Item().setUnlocalizedName("livingMatter").setTextureName("hardcoreenderexpansion:living_matter"));
 		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune"));
