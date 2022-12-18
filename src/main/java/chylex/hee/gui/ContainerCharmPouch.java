@@ -112,8 +112,15 @@ public class ContainerCharmPouch extends Container{
 			ItemStack is2 = slot.getStack();
 			is = is2.copy();
 
-			if (slotId < 9){
+			if (slotId < 8){
 				if (!mergeItemStack(is2,9,inventorySlots.size(),true))return null;
+			}
+			else if (slotId == 8){
+				if (!mergeItemStack(is2,0,3,false) && !mergeItemStack(is2, 9, inventorySlots.size(), true))return null;
+
+				for (int i = 0; i < runeInv.getSizeInventory(); i++){
+					runeInv.decrStackSize(i, 1);
+				}
 			}
 			else{
 				if (is2.getItem() == ItemList.charm){
