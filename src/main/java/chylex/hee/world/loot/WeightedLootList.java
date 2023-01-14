@@ -11,7 +11,7 @@ public class WeightedLootList extends WeightedList<LootItemStack>{
 	private List<IItemPostProcessor> itemPostProcessors = new ArrayList<>();
 	
 	public WeightedLootList(LootItemStack...items){
-		for(LootItemStack item:items)add(item);
+		addAll(items);
 	}
 	
 	@Override

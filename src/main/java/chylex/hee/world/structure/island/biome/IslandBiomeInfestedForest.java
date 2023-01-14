@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome;
+import java.util.Arrays;
 import java.util.Random;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.stats.Achievement;
@@ -27,11 +28,9 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	protected IslandBiomeInfestedForest(int biomeID){
 		super(biomeID);
 
-		contentVariations.add(DEEP);
-		contentVariations.add(RAVAGED);
+		contentVariations.addAll(Arrays.asList(DEEP, RAVAGED));
 		
-		randomDeviations.add(TALL_TREES);
-		randomDeviations.add(MORE_THORNY_BUSHES);
+		randomDeviations.addAll(Arrays.asList(TALL_TREES, MORE_THORNY_BUSHES));
 		
 		getSpawnEntries(DEEP).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntitySilverfish.class,35,35),

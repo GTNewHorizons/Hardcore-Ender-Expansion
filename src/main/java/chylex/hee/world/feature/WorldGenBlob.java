@@ -1,4 +1,5 @@
 package chylex.hee.world.feature;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
@@ -55,12 +56,9 @@ public class WorldGenBlob extends WorldGenerator{
 																  typesFar = new WeightedList<>();
 	
 	static{
-		typesClose.add(ObjectWeightPair.of(BlobType.COMMON,50));
-		typesClose.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
+		typesClose.addAll(Arrays.asList(ObjectWeightPair.of(BlobType.COMMON, 50), ObjectWeightPair.of(BlobType.UNCOMMON,7)));
 		
-		typesFar.add(ObjectWeightPair.of(BlobType.COMMON,42));
-		typesFar.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
-		typesFar.add(ObjectWeightPair.of(BlobType.RARE,1));
+		typesFar.addAll(Arrays.asList(ObjectWeightPair.of(BlobType.COMMON,42), ObjectWeightPair.of(BlobType.UNCOMMON,7), ObjectWeightPair.of(BlobType.RARE,1)));
 		
 		BlobType.COMMON.patterns.addAll(new BlobPattern[]{
 			// basic random pattern

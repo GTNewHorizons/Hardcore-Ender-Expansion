@@ -14,7 +14,7 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 	protected int totalWeight;
 	
 	public WeightedList(T...weightedItems){
-		for(T item:weightedItems)add(item);
+		addAll(weightedItems);
 	}
 
 	public WeightedList(WeightedList<T> weightedItemCollection){

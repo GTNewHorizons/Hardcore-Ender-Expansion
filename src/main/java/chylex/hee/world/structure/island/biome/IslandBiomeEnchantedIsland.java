@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.entity.item.EntityItem;
@@ -41,12 +42,9 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	protected IslandBiomeEnchantedIsland(int biomeID){
 		super(biomeID);
 		
-		contentVariations.add(HOMELAND);
-		contentVariations.add(LABORATORY);
+		contentVariations.addAll(Arrays.asList(HOMELAND, LABORATORY));
 		
-		randomDeviations.add(TALL_PILES);
-		randomDeviations.add(GOO_SWAMP);
-		randomDeviations.add(MORE_SHADOW_ORCHIDS);
+		randomDeviations.addAll(Arrays.asList(TALL_PILES, GOO_SWAMP, MORE_SHADOW_ORCHIDS));
 		
 		getSpawnEntries(HOMELAND).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobEnderman.class,22,38),

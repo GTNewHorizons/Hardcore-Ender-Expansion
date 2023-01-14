@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome;
+import java.util.Arrays;
 import java.util.Random;
 import net.minecraft.stats.Achievement;
 import chylex.hee.block.BlockEndstoneTerrain;
@@ -27,13 +28,9 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	protected IslandBiomeBurningMountains(int biomeID){
 		super(biomeID);
 		
-		contentVariations.add(SCORCHING);
-		contentVariations.add(MINE);
+		contentVariations.addAll(Arrays.asList(SCORCHING, MINE));
 		
-		randomDeviations.add(EXCESSIVE_CINDER);
-		randomDeviations.add(SINGLE_LAVA_ONLY);
-		randomDeviations.add(LIMITED_ORES);
-		randomDeviations.add(DEEP_RESOURCE_PITS);
+		randomDeviations.addAll(Arrays.asList(EXCESSIVE_CINDER, SINGLE_LAVA_ONLY, LIMITED_ORES, DEEP_RESOURCE_PITS));
 		
 		getSpawnEntries(SCORCHING).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobFireGolem.class,14,10),
