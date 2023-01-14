@@ -207,14 +207,14 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				if (enchants == null || enchants.tagCount() == 0)return;
 				
 				for(int attempt = 0; attempt < 3; attempt++){
-					WeightedList<ObjectWeightPair<Enchantment>> list = new WeightedList<>();
-					IntStream stream = IntStream.range(0, enchants.tagCount());
+					final WeightedList<ObjectWeightPair<Enchantment>> list = new WeightedList<>();
 
-					final ObjectWeightPair<?>[] blah = stream.mapToObj(i -> Enchantment.enchantmentsList[enchants.getCompoundTagAt(i).getShort("id")])
+					final ObjectWeightPair<?>[] eligibleEnchants = IntStream.range(0, enchants.tagCount())
+						.mapToObj(i -> Enchantment.enchantmentsList[enchants.getCompoundTagAt(i).getShort("id")])
 						.filter(Objects::nonNull)
 						.map(e -> ObjectWeightPair.of(e, e.getWeight()))
 						.toArray(ObjectWeightPair<?>[]::new);
-					list.addAll((ObjectWeightPair<Enchantment>[]) blah);
+					list.addAll((ObjectWeightPair<Enchantment>[]) eligibleEnchants);
 
 					
 					if (list.isEmpty()) continue; // the enchantments are no longer in the game
