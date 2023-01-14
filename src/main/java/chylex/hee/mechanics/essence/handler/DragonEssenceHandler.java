@@ -210,11 +210,10 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					WeightedList<ObjectWeightPair<Enchantment>> list = new WeightedList<>();
 					IntStream stream = IntStream.range(0, enchants.tagCount());
 
-					ObjectWeightPair<?>[] blah = stream.mapToObj((i) -> {
-						Enchantment e = Enchantment.enchantmentsList[enchants.getCompoundTagAt(i).getShort("id")];
-						if (e == null) return null;
-						return ObjectWeightPair.of(e,e.getWeight());
-					}).filter(Objects::nonNull).toArray(ObjectWeightPair<?>[]::new);
+					final ObjectWeightPair<?>[] blah = stream.mapToObj(i -> Enchantment.enchantmentsList[enchants.getCompoundTagAt(i).getShort("id")])
+						.filter(Objects::nonNull)
+						.map(e -> ObjectWeightPair.of(e, e.getWeight()))
+						.toArray(ObjectWeightPair<?>[]::new);
 					list.addAll((ObjectWeightPair<Enchantment>[]) blah);
 
 					
