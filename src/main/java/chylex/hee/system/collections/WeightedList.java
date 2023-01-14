@@ -23,16 +23,14 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 
 	@Override
 	public boolean add(T obj){
-		boolean b = super.add(obj);
-		recalculateWeight();
-		return b;
+		throw new RuntimeException("Don't use this, use addAll() instead.");
 	}
 	
 	public WeightedList<T> addAll(T[] objArray){
-		for(T obj:objArray)super.add(obj);
+		for(T obj:objArray) super.add(obj);
 		recalculateWeight();
 		return this;
-	}
+	}	
 	
 	@Override
 	public boolean addAll(Collection<? extends T> collection){
