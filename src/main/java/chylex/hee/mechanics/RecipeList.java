@@ -23,6 +23,12 @@ public final class RecipeList{
 			'E', Items.ender_eye
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.laboratory_glass,8),
+				"BBB", "BLB", "BBB",
+				'B', Blocks.glass,
+				'L', ItemList.end_powder
+		);
+		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.essence_altar),
 			"LLL", "BNB", "OOO",
 			'B', Blocks.bookshelf,
