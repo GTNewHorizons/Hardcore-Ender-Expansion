@@ -1,6 +1,7 @@
 package chylex.hee.system.collections;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Random;
 import chylex.hee.HardcoreEnderExpansion;
@@ -18,12 +19,13 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 	}
 
 	public WeightedList(WeightedList<T> weightedItemCollection){
-		for(T item:weightedItemCollection)add(item);
+		this.addAll(weightedItemCollection);
 	}
 
 	@Override
 	public boolean add(T obj){
-		throw new RuntimeException("Don't use this, use addAll() instead.");
+		totalWeight += obj.getWeight();
+		return super.add(obj);
 	}
 	
 	public WeightedList<T> addAll(T[] objArray){
@@ -42,14 +44,16 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 	@Override
 	public T remove(int index){
 		T is = super.remove(index);
-		recalculateWeight();
+		totalWeight -= is.getWeight();
 		return is;
 	}
 	
 	@Override
 	public boolean remove(Object o){
 		boolean b = super.remove(o);
-		recalculateWeight();
+		if (b) {
+			totalWeight -= ((T)o).getWeight();
+		}
 		return b;
 	}
 	
@@ -80,12 +84,14 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		@Override
 		public void run(String...args){
 			WeightedList<ObjectWeightPair<String>> list = new WeightedList<>();
-			list.add(ObjectWeightPair.of("A",50));
-			list.add(ObjectWeightPair.of("B",25));
-			list.add(ObjectWeightPair.of("C",10));
-			list.add(ObjectWeightPair.of("D",5));
-			list.add(ObjectWeightPair.of("E",5));
-			list.add(ObjectWeightPair.of("F",1));
+			list.addAll(Arrays.asList(
+				ObjectWeightPair.of("A", 50), 
+				ObjectWeightPair.of("B",25),
+			    ObjectWeightPair.of("C",10),
+			    ObjectWeightPair.of("D",5),
+			    ObjectWeightPair.of("E",5),
+			    ObjectWeightPair.of("F",1)
+			));
 			
 			TObjectIntHashMap<String> freq = new TObjectIntHashMap<>();
 			for(int a = 0; a < 5000; a++)freq.adjustOrPutValue(list.getRandomItem(world.rand).getObject(),1,1);
