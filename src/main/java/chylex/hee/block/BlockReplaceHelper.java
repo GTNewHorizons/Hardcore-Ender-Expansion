@@ -3,6 +3,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import com.gtnewhorizon.gtnhlib.reflect.Fields;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -11,7 +12,6 @@ import net.minecraft.util.ObjectIntIdentityMap;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.ReflectionUtils;
-import chylex.hee.system.util.Unfinalizer;
 import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
 import cpw.mods.fml.common.registry.GameData;
 
@@ -23,11 +23,13 @@ public class BlockReplaceHelper{
 		Exception exception = null;
 		
 		try{
+			final Fields.ClassFields blocksFields = Fields.ofClass(Blocks.class);
 			for(Field blockField:Blocks.class.getFields()){
 				if (Block.class.isAssignableFrom(blockField.getType())){
 					Block block = (Block)blockField.get(null);
 					
 					if (block == toReplace){
+						final Fields.ClassFields.Field fieldAccessor = blocksFields.getUntypedField(Fields.LookupType.PUBLIC, blockField.getName());
 						String registryName = Block.blockRegistry.getNameForObject(block);
 						int id = Block.getIdFromBlock(block);
 						
@@ -50,10 +52,9 @@ public class BlockReplaceHelper{
 						Log.debug("Set new value for registryObjects: registryObjects. For object registryBlocks.");
 						ReflectionUtils.setFieldValue(registryBlocks, "underlyingIntegerMap", underlyingIntegerMap);
 						Log.debug("Set new value for underlyingIntegerMap: underlyingIntegerMap. For object registryBlocks.");
-						
-						ReflectionUtils.makeFieldAccessible(blockField);
+
 						Log.debug("Made "+blockField.getName()+" accessible.");
-						blockField.set(null,replacement);
+						fieldAccessor.setValue(null,replacement);
 						Log.debug("Set "+blockField.getName()+" to "+replacement.getUnlocalizedName()+".");
 						
 						Method delegateNameMethod = replacement.delegate.getClass().getDeclaredMethod("setName",String.class);

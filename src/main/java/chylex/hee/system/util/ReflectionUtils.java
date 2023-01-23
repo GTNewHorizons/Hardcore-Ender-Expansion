@@ -8,10 +8,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import chylex.hee.system.logging.Log;
+import com.gtnewhorizon.gtnhlib.reflect.Fields;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.launchwrapper.Launch;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ReflectionUtils {
 
 	public static Boolean obf;
@@ -78,25 +80,25 @@ public class ReflectionUtils {
 	
 
 	private static class CachedField {
-		private final Field FIELD;
+		private final Fields.ClassFields.Field FIELD;
 
-		public CachedField(Field aField) {
+		public CachedField(Fields.ClassFields.Field aField) {
 			FIELD = aField;
 		}
 
-		public Field get() {
+		public Fields.ClassFields.Field get() {
 			return FIELD;
 		}
 	}
 
-	private static boolean cacheField(Class<?> aClass, Field aField) {		
+	private static boolean cacheField(Class<?> aClass, Fields.ClassFields.Field aField) {
 		if (aField == null) {
 			return false;
 		}
-		CachedField y = mCachedFields.get(aClass.getName()+"."+aField.getName());
+		CachedField y = mCachedFields.get(aClass.getName()+"."+aField.javaField.getName());
 		if (y == null) {
-			Log.debug("Caching Field: "+aClass.getName()+"."+aField.getName());
-			mCachedFields.put(aClass.getName()+"."+aField.getName(), new CachedField(aField));
+			Log.debug("Caching Field: "+aClass.getName()+"."+aField.javaField.getName());
+			mCachedFields.put(aClass.getName()+"."+aField.javaField.getName(), new CachedField(aField));
 			return true;
 		}		
 		return false;
@@ -108,7 +110,7 @@ public class ReflectionUtils {
 	 * @param aFieldName - Field name in {@link String} form.
 	 * @return - Valid, non-final, {@link Field} object, or {@link null}.
 	 */
-	public static Field getField(final Class<?> aClass, String aFieldName) {
+	public static Fields.ClassFields.Field getField(final Class<?> aClass, String aFieldName) {
 		if (aClass == null || aFieldName == null || aFieldName.length() <= 0) {
 			return null;
 		}		
@@ -116,14 +118,11 @@ public class ReflectionUtils {
 		Log.debug("Getting Field: "+aFieldName);
 		CachedField y = mCachedFields.get(aClass.getName()+"."+aFieldName);
 		if (y == null) {
-			Field u;
-			try {
-				u = getField_Internal(aClass, aFieldName);
-				if (u != null) {
-					cacheField(aClass, u);
-					return u;
-				}
-			} catch (NoSuchFieldException e) {
+			Fields.ClassFields.Field u;
+			u = getField_Internal(aClass, aFieldName);
+			if (u != null) {
+				cacheField(aClass, u);
+				return u;
 			}
 			return null;
 
@@ -138,74 +137,46 @@ public class ReflectionUtils {
 	 * @param aFieldName - Field name in {@link String} form.
 	 * @return - Valid, non-final, {@link Field} object, or {@link null}.
 	 */
-	public static Field getField(final Object aInstance, String aFieldName) {
+	public static Fields.ClassFields.Field getField(final Object aInstance, String aFieldName) {
 		return getField(aInstance.getClass(), aFieldName);
 	}
 
 
-	@SuppressWarnings("unchecked")
 	public static <T> T getFieldValue(final Object aInstance, String aFieldName) {		
 		aFieldName = getCorrectFieldName(aFieldName);
 		Log.debug("Getting Field Value: "+aFieldName);
 		try {			
-			return (T) getField(aInstance, aFieldName).get(aInstance);
-		} catch (IllegalArgumentException | IllegalAccessException e) {
+			return (T) getField(aInstance, aFieldName).getValue(aInstance);
+		} catch (ClassCastException e) {
 			return null;
 		}
 	}
 
 	public static void setFieldValue(final Object aInstance, String aFieldName, Object aNewValue) {
-		setFieldValue(aInstance, aFieldName, aInstance instanceof Class ? true : false, aNewValue);
+		setFieldValue(aInstance, aFieldName, aInstance instanceof Class, aNewValue);
 	}
 
-	public static void setFieldValue(final Object aInstance, String aFieldName, boolean aStatic,  Object aNewValue) {
-		Field f;		
+	public static void setFieldValue(final Object aInstance, String aFieldName, boolean aStatic, Object aNewValue) {
+		Fields.ClassFields.Field f;
 		aFieldName = getCorrectFieldName(aFieldName);
 		Log.debug("Setting Field: "+aFieldName);
 		try {
 			if (aInstance instanceof Class && aStatic) {
 				f = getField((Class) aInstance, aFieldName);
-				makeFieldAccessible(f);
-				f.set(null, aNewValue);
+				f.setValue(null, aNewValue);
 			}
 			else {			
 				f = getField(aInstance, aFieldName);
-				makeFieldAccessible(f);
-				f.set(aInstance, aNewValue);
+				f.setValue(aInstance, aNewValue);
 
-			}	
-		} catch (IllegalArgumentException | IllegalAccessException e) {
+			}
+		} catch (ClassCastException e) {
 			e.printStackTrace();
 		}	
 	}
 
-
-	private static Field getField_Internal(final Class<?> clazz, final String fieldName) throws NoSuchFieldException {
-		try {
-			Field k = clazz.getDeclaredField(fieldName);
-			makeFieldAccessible(k);
-			return k;
-		} catch (final NoSuchFieldException e) {
-			final Class<?> superClass = clazz.getSuperclass();
-			if (superClass == null) {
-				throw e;
-			}
-			Log.debug("Checking Super: "+superClass.getCanonicalName());
-			return getField_Internal(superClass, fieldName);
-		}
-	}	
-
-	public static void makeFieldAccessible(final Field field) {			
-		field.setAccessible(true);
-		if (Modifier.isFinal(field.getModifiers())){
-			try {
-				Unfinalizer.unfinalizeField(field);
-			}
-			catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}	
+	private static Fields.ClassFields.Field getField_Internal(final Class<?> clazz, final String fieldName) {
+		return Fields.ofClass(clazz).getUntypedField(Fields.LookupType.DECLARED_IN_HIERARCHY, fieldName);
 	}
-
 
 }
