@@ -54,7 +54,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid = "HardcoreEnderExpansion", name = "Hardcore Ender Expansion", version = "GRADLETOKEN_VERSION", useMetadata = true, guiFactory = "chylex.hee.gui.core.ModGuiFactory")
+@Mod(modid = "HardcoreEnderExpansion", name = "Hardcore Ender Expansion", version = "GRADLETOKEN_VERSION", useMetadata = true, guiFactory = "chylex.hee.gui.core.ModGuiFactory", dependencies = "required-after:gtnhlib@0.0.10")
 public class HardcoreEnderExpansion{
 	@Instance("HardcoreEnderExpansion")
 	public static HardcoreEnderExpansion instance;
