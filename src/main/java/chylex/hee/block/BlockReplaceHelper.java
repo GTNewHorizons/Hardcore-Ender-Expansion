@@ -10,12 +10,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ObjectIntIdentityMap;
 
+import com.gtnewhorizon.gtnhlib.reflect.Fields;
+
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.ReflectionUtils;
-
-import com.gtnewhorizon.gtnhlib.reflect.Fields;
-
 import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
 import cpw.mods.fml.common.registry.GameData;
 

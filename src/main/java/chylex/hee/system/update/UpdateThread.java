@@ -15,13 +15,13 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.io.IOUtils;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 class UpdateThread extends Thread {
 

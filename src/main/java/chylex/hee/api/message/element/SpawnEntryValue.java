@@ -3,11 +3,11 @@ package chylex.hee.api.message.element;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 
+import com.google.common.base.Function;
+
 import chylex.hee.api.message.MessageRunner;
 import chylex.hee.api.message.element.base.PreconditionComposite;
 import chylex.hee.world.util.SpawnEntry;
-
-import com.google.common.base.Function;
 
 public class SpawnEntryValue extends PreconditionComposite<SpawnEntry> {
 

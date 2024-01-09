@@ -7,11 +7,11 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.google.common.base.Function;
+
 import chylex.hee.api.message.MessageRunner;
 import chylex.hee.api.message.element.base.Optional;
 import chylex.hee.api.message.element.base.PreconditionComposite;
-
-import com.google.common.base.Function;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemStackValue extends PreconditionComposite<ItemStack> {

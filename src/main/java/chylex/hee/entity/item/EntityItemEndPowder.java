@@ -13,11 +13,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import com.google.common.collect.Sets;
+
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.init.ItemList;
-
-import com.google.common.collect.Sets;
 
 public class EntityItemEndPowder extends EntityItem {
 

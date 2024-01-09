@@ -8,13 +8,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 
+import com.google.common.collect.Lists;
+
 import chylex.hee.entity.technical.EntityTechnicalVoidChest;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C09SimpleEvent;
 import chylex.hee.packets.client.C09SimpleEvent.EventType;
-
-import com.google.common.collect.Lists;
-
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 

@@ -5,12 +5,12 @@ import java.util.Calendar;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import chylex.hee.system.logging.Log;
-import chylex.hee.system.util.DragonUtil;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.DragonUtil;
 
 final class VersionEntry implements Comparable<VersionEntry> {
 

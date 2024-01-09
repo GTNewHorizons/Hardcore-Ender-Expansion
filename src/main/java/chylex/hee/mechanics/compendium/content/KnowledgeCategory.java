@@ -5,9 +5,9 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
-import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
-
 import com.google.common.collect.ImmutableList;
+
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 
 public class KnowledgeCategory {
 

@@ -5,11 +5,11 @@ import java.util.Map;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.google.common.collect.ImmutableMap;
+
 import chylex.hee.api.message.handlers.ImcHandler;
 import chylex.hee.api.message.utils.MessageLogger;
 import chylex.hee.api.message.utils.RunEvent;
-
-import com.google.common.collect.ImmutableMap;
 
 public final class MessageRegistry {
 

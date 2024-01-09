@@ -11,9 +11,9 @@ import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import chylex.hee.system.J8;
-
 import com.google.common.base.Function;
+
+import chylex.hee.system.J8;
 
 /**
  * Converts the current IRecipe mess into a unified system.

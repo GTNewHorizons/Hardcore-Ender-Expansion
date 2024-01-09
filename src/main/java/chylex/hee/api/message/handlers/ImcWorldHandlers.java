@@ -9,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.google.common.base.Function;
+
 import chylex.hee.api.message.MessageHandler;
 import chylex.hee.api.message.MessageRunner;
 import chylex.hee.api.message.element.IntValue;
@@ -32,8 +34,6 @@ import chylex.hee.world.structure.island.biome.feature.island.StructureHiddenCel
 import chylex.hee.world.structure.island.biome.feature.island.laboratory.LaboratoryContent;
 import chylex.hee.world.structure.tower.ComponentTower;
 import chylex.hee.world.util.SpawnEntry;
-
-import com.google.common.base.Function;
 
 public final class ImcWorldHandlers extends ImcHandler {
 

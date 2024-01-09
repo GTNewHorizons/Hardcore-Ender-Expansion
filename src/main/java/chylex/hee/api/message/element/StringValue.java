@@ -8,9 +8,9 @@ import net.minecraftforge.common.util.Constants.NBT;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import chylex.hee.api.message.element.base.Precondition;
-
 import com.google.common.base.Function;
+
+import chylex.hee.api.message.element.base.Precondition;
 
 public abstract class StringValue extends Precondition<String> {
 

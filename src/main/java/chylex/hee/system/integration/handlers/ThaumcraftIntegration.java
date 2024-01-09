@@ -7,9 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import thaumcraft.api.ThaumcraftApi.EntityTagsNBT;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockRavagedBrick;
@@ -18,6 +15,9 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.system.integration.IIntegrationHandler;
+import thaumcraft.api.ThaumcraftApi.EntityTagsNBT;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 
 public class ThaumcraftIntegration implements IIntegrationHandler {
 

@@ -2,9 +2,9 @@ package chylex.hee.system.update;
 
 import java.util.Calendar;
 
-import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
-
 import com.google.common.base.Joiner;
+
+import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 
 public final class UpdateNotificationManager {
 

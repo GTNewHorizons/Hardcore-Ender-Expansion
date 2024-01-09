@@ -23,6 +23,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ArrayListMultimap;
+
 import chylex.hee.block.BlockDragonEggCustom;
 import chylex.hee.block.BlockObsidianEnd;
 import chylex.hee.block.BlockRavagedBrick;
@@ -46,10 +49,6 @@ import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
-
-import com.google.common.base.Function;
-import com.google.common.collect.ArrayListMultimap;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

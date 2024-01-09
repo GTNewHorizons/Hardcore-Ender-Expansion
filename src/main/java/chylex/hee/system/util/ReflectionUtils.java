@@ -8,10 +8,9 @@ import java.util.Map;
 
 import net.minecraft.launchwrapper.Launch;
 
-import chylex.hee.system.logging.Log;
-
 import com.gtnewhorizon.gtnhlib.reflect.Fields;
 
+import chylex.hee.system.logging.Log;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 

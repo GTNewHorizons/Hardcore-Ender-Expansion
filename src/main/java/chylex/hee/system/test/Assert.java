@@ -1,8 +1,8 @@
 package chylex.hee.system.test;
 
-import chylex.hee.system.util.MathUtil;
-
 import com.google.common.base.Objects;
+
+import chylex.hee.system.util.MathUtil;
 
 public final class Assert {
 

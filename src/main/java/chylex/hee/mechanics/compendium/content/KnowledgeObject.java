@@ -6,12 +6,11 @@ import java.util.Set;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 
-import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium.util.IGuiItemStackRenderer;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium.util.IGuiItemStackRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gnu.trove.map.hash.TIntObjectHashMap;

@@ -18,12 +18,11 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
+import com.google.common.collect.ImmutableSet;
+
 import chylex.hee.init.BlockList;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.MathUtil;
-
-import com.google.common.collect.ImmutableSet;
-
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;

@@ -13,12 +13,6 @@ import java.util.Set;
 
 import net.minecraftforge.common.ForgeVersion;
 
-import chylex.hee.system.logging.Log;
-import chylex.hee.system.test.data.MethodType;
-import chylex.hee.system.test.data.RunTime;
-import chylex.hee.system.test.data.UnitTest;
-import chylex.hee.system.util.DragonUtil;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -26,6 +20,12 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
+
+import chylex.hee.system.logging.Log;
+import chylex.hee.system.test.data.MethodType;
+import chylex.hee.system.test.data.RunTime;
+import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.util.DragonUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public final class UnitTester {

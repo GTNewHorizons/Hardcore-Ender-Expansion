@@ -18,6 +18,8 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+import com.google.common.collect.Multimap;
+
 import chylex.hee.entity.GlobalMobData;
 import chylex.hee.entity.projectile.EntityProjectileSacredWand;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
@@ -28,9 +30,6 @@ import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
-
-import com.google.common.collect.Multimap;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

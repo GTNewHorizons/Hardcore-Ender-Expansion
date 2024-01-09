@@ -11,6 +11,9 @@ import net.minecraft.item.crafting.IRecipe;
 
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
+
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.init.ItemList;
@@ -22,10 +25,6 @@ import chylex.hee.system.J8;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.RecipeUnifier;
 import chylex.hee.system.util.RecipeUnifier.Recipe;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

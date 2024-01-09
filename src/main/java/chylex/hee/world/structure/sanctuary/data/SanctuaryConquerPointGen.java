@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.ImmutableList;
+
 import chylex.hee.system.logging.Log;
 import chylex.hee.world.util.Direction;
-
-import com.google.common.collect.ImmutableList;
 
 public class SanctuaryConquerPointGen {
 
