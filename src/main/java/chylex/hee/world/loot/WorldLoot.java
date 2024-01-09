@@ -1,6 +1,14 @@
 package chylex.hee.world.loot;
 
-import static net.minecraftforge.common.ChestGenHooks.*;
+import static net.minecraftforge.common.ChestGenHooks.DUNGEON_CHEST;
+import static net.minecraftforge.common.ChestGenHooks.MINESHAFT_CORRIDOR;
+import static net.minecraftforge.common.ChestGenHooks.PYRAMID_DESERT_CHEST;
+import static net.minecraftforge.common.ChestGenHooks.PYRAMID_JUNGLE_CHEST;
+import static net.minecraftforge.common.ChestGenHooks.STRONGHOLD_CORRIDOR;
+import static net.minecraftforge.common.ChestGenHooks.STRONGHOLD_CROSSING;
+import static net.minecraftforge.common.ChestGenHooks.STRONGHOLD_LIBRARY;
+import static net.minecraftforge.common.ChestGenHooks.VILLAGE_BLACKSMITH;
+import static net.minecraftforge.common.ChestGenHooks.getInfo;
 
 import java.util.Random;
 
