@@ -303,6 +303,7 @@ public class EntityMiniBossFireFiend extends EntityFlying
 
     @Override
     protected void dropFewItems(boolean recentlyHit, int looting) {
+        // ANY CHANGE MADE IN HERE MUST ALSO BE MADE IN provideDropsInformation!
         for (int a = 0; a < 80; a++) entityDropItem(
                 new ItemStack(ItemList.essence, 3, EssenceType.FIERY.getItemDamage()),
                 rand.nextFloat() * height);
