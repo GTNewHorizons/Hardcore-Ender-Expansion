@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,6 +20,9 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+
+import com.kuba6000.mobsinfo.api.IMobInfoProvider;
+import com.kuba6000.mobsinfo.api.MobDrop;
 
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
@@ -35,8 +40,11 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.common.Optional;
 
-public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo {
+@Optional.Interface(iface = "com.kuba6000.mobsinfo.api.IMobInfoProvider", modid = "mobsinfo")
+public class EntityMiniBossFireFiend extends EntityFlying
+        implements IBossDisplayData, IIgnoreEnderGoo, IMobInfoProvider {
 
     private static final byte ATTACK_NONE = 0, ATTACK_FIREBALLS = 1, ATTACK_FLAMES = 2;
 
@@ -64,8 +72,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
     @Override
     protected void entityInit() {
         super.entityInit();
-        dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-        dataWatcher.addObject(17, Byte.valueOf((byte) 0));
+        dataWatcher.addObject(16, (byte) 0);
+        dataWatcher.addObject(17, (byte) 0);
     }
 
     @Override
@@ -298,6 +306,12 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
         for (int a = 0; a < 80; a++) entityDropItem(
                 new ItemStack(ItemList.essence, 3, EssenceType.FIERY.getItemDamage()),
                 rand.nextFloat() * height);
+    }
+
+    @Optional.Method(modid = "mobsinfo")
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        drops.add(MobDrop.create(new ItemStack(ItemList.essence, 3 * 80, EssenceType.FIERY.getItemDamage())));
     }
 
     @Override
