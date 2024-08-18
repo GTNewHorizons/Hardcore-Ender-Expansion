@@ -1,9 +1,9 @@
 // Add your dependencies here
 
 dependencies {
-    implementation('com.github.GTNewHorizons:GTNHLib:0.3.3:dev')
-    implementation('com.github.GTNewHorizons:NotEnoughItems:2.6.14-GTNH:dev')
+    implementation('com.github.GTNewHorizons:GTNHLib:0.4.3:dev')
+    implementation('com.github.GTNewHorizons:NotEnoughItems:2.6.26-GTNH:dev')
 
     compileOnly('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev')
-    compileOnly('com.github.GTNewHorizons:Mobs-Info:0.4.1-GTNH:dev')
+    compileOnly('com.github.GTNewHorizons:Mobs-Info:0.4.2-GTNH:dev')
 }
