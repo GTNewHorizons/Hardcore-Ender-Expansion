@@ -79,11 +79,9 @@ public class DragonAttackManager {
                 EntityPlayer.class,
                 AxisAlignedBB.getBoundingBox(-160D, -32D, -160D, 160D, 512D, 160D));
 
-        if (players.size() > 1) {
-            for (Iterator<EntityPlayer> iter = players.iterator(); iter.hasNext();) {
-                EntityPlayer player = iter.next();
-                if (player.capabilities.isCreativeMode || player.isDead) iter.remove();
-            }
+        for (Iterator<EntityPlayer> iter = players.iterator(); iter.hasNext();) {
+            EntityPlayer player = iter.next();
+            if (player.capabilities.isCreativeMode || player.isDead) iter.remove();
         }
 
         return players;
