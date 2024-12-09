@@ -2,6 +2,7 @@ package chylex.hee.item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
@@ -22,6 +23,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import com.gtnewhorizon.gtnhlib.api.MusicRecordMetadataProvider;
+
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
 import chylex.hee.system.util.BlockPosM;
@@ -29,7 +32,7 @@ import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemMusicDisk extends ItemRecord {
+public class ItemMusicDisk extends ItemRecord implements MusicRecordMetadataProvider {
 
     private static final List<String[]> musicNames = new ArrayList<>();
     private static final List<ResourceLocation> musicResources = new ArrayList<>();
@@ -59,6 +62,19 @@ public class ItemMusicDisk extends ItemRecord {
 
     public static ResourceLocation getRecordResource(int damage) {
         return musicResources.get(MathUtil.clamp(damage, 0, musicNames.size() - 1));
+    }
+
+    @Override
+    public ResourceLocation getMusicRecordResource(ItemStack stack) {
+        if (stack == null || !(stack.getItem() instanceof ItemMusicDisk)) {
+            return null;
+        }
+        return getRecordResource(stack.getItemDamage());
+    }
+
+    @Override
+    public Iterable<ItemStack> getMusicRecordVariants() {
+        return IntStream.range(0, musicNames.size()).mapToObj(i -> new ItemStack(this, 1, i))::iterator;
     }
 
     private IIcon[] iconArray;
