@@ -60,10 +60,10 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 @Mod(
         modid = "HardcoreEnderExpansion",
         name = "Hardcore Ender Expansion",
-        version = "GRADLETOKEN_VERSION",
+        version = Tags.VERSION,
         useMetadata = true,
         guiFactory = "chylex.hee.gui.core.ModGuiFactory",
-        dependencies = "required-after:gtnhlib@[0.0.10,)")
+        dependencies = "required-after:gtnhlib@[0.5.22,)")
 public class HardcoreEnderExpansion {
 
     @Instance("HardcoreEnderExpansion")
