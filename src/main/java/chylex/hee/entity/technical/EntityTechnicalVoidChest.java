@@ -110,4 +110,11 @@ public class EntityTechnicalVoidChest extends EntityTechnicalBase {
     protected void readEntityFromNBT(NBTTagCompound nbt) {
         age = nbt.getShort("vcage");
     }
+
+    @Override
+    public boolean writeToNBTOptional(NBTTagCompound tagCompund) {
+        // this is a technical entity used to track item entities.
+        // it does not need to survive a chunk reload
+        return false;
+    }
 }
