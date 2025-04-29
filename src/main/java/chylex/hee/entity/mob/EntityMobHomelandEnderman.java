@@ -755,9 +755,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
     protected Entity findPlayerToAttack() {
         if (worldObj.isRemote) return null;
 
-        List<EntityPlayerMP> players = worldObj.playerEntities;
+        List<EntityPlayer> players = worldObj.playerEntities;
 
-        for (EntityPlayerMP player : players) {
+        for (EntityPlayer player : players) {
             if (!player.capabilities.disableDamage && getDistanceSqToEntity(player) <= 4096D) {
                 if (isPlayerStaringIntoEyes(player)) {
                     if (!shouldActHostile(player) && teleportRandomly(10D)) return null;

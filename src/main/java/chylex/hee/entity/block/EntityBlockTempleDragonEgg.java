@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -104,9 +105,9 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock {
                 }
 
                 if (deltaY > 6D) {
-                    for (EntityPlayerMP player : new ArrayList<EntityPlayerMP>(worldObj.playerEntities)) {
+                    for (EntityPlayer player : new ArrayList<>(worldObj.playerEntities)) {
                         if (player.ridingEntity != null) player.mountEntity(null);
-                        DragonUtil.teleportToOverworld(player);
+                        DragonUtil.teleportToOverworld((EntityPlayerMP) player);
                     }
 
                     TempleEvents.destroyWorld();
