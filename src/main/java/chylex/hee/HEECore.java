@@ -1,14 +1,17 @@
 package chylex.hee;
 
-import chylex.hee.mixins.Mixins;
-import com.gtnewhorizon.gtnhlib.mixin.IMixins;
-import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.gtnewhorizon.gtnhlib.mixin.IMixins;
+import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
+
+import chylex.hee.mixins.Mixins;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+
 public class HEECore implements IFMLLoadingPlugin, IEarlyMixinLoader {
+
     @Override
     public String getMixinConfig() {
         return "mixins.HardcoreEnderExpansion.early.json";
@@ -35,8 +38,7 @@ public class HEECore implements IFMLLoadingPlugin, IEarlyMixinLoader {
     }
 
     @Override
-    public void injectData(Map<String, Object> data) {
-    }
+    public void injectData(Map<String, Object> data) {}
 
     @Override
     public String getAccessTransformerClass() {

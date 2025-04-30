@@ -2,21 +2,19 @@ package chylex.hee.mixins;
 
 import static com.gtnewhorizon.gtnhlib.mixin.TargetedMod.VANILLA;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 import com.gtnewhorizon.gtnhlib.mixin.IMixins;
 import com.gtnewhorizon.gtnhlib.mixin.ITargetedMod;
 import com.gtnewhorizon.gtnhlib.mixin.MixinBuilder;
 import com.gtnewhorizon.gtnhlib.mixin.Phase;
 import com.gtnewhorizon.gtnhlib.mixin.Side;
-import java.util.List;
-import java.util.function.Supplier;
 
 public enum Mixins implements IMixins {
-    REPLACE_DRAGON_EGG(new MixinBuilder("Replaces the dragon egg")
-            .setApplyIf(() -> true)
-            .addMixinClasses("minecraft.MixinBlock")
-            .addTargetedMod(VANILLA)
-            .setSide(Side.BOTH)
-            .setPhase(Phase.EARLY));
+
+    REPLACE_DRAGON_EGG(new MixinBuilder("Replaces the dragon egg").setApplyIf(() -> true)
+            .addMixinClasses("minecraft.MixinBlock").addTargetedMod(VANILLA).setSide(Side.BOTH).setPhase(Phase.EARLY));
 
     private final List<String> mixinClasses;
     private final List<ITargetedMod> targetedMods;
@@ -33,16 +31,11 @@ public enum Mixins implements IMixins {
         phase = builder.phase;
         side = builder.side;
 
-        if (mixinClasses.isEmpty())
-            throw new RuntimeException("No mixin class specified for Mixin : " + name());
-        if (targetedMods.isEmpty())
-            throw new RuntimeException("No targeted mods specified for Mixin : " + name());
-        if (applyIf == null)
-            throw new RuntimeException("No ApplyIf function specified for Mixin : " + name());
-        if (phase == null)
-            throw new RuntimeException("No Phase specified for Mixin : " + name());
-        if (side == null)
-            throw new RuntimeException("No Side function specified for Mixin : " + name());
+        if (mixinClasses.isEmpty()) throw new RuntimeException("No mixin class specified for Mixin : " + name());
+        if (targetedMods.isEmpty()) throw new RuntimeException("No targeted mods specified for Mixin : " + name());
+        if (applyIf == null) throw new RuntimeException("No ApplyIf function specified for Mixin : " + name());
+        if (phase == null) throw new RuntimeException("No Phase specified for Mixin : " + name());
+        if (side == null) throw new RuntimeException("No Side function specified for Mixin : " + name());
     }
 
     @Override
