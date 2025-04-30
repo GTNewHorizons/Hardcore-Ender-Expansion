@@ -68,7 +68,7 @@ The project is under the All Rights Reserved license, which means that redistrib
 
 This rule only applies to the source code, assets are copyrighted and belong to their respective owners (music to qwertygiy, all other assets to me), and cannot be used in other projects without the owner's permission!
 
-If you find a handy method or even an entire class (such as BlockReplaceHelper), I don't mind if you use it in your project (don't copy everything you see though, that's not how you learn to mod). Giving credit is only required if your project has publicly visible source, in that case use javadoc and link back to the original source.
+If you find a handy method or even an entire class (such as ~~BlockReplaceHelper~~ NH deleted this class because it was an awful hack), I don't mind if you use it in your project (don't copy everything you see though, that's not how you learn to mod). Giving credit is only required if your project has publicly visible source, in that case use javadoc and link back to the original source.
 
 ### I want to modify something in HEE
 

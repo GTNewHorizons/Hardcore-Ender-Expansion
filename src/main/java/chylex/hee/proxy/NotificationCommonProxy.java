@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraftforge.common.ForgeHooks;
@@ -53,7 +54,7 @@ public class NotificationCommonProxy {
         if (manager == null) return;
 
         boolean delivered = false;
-        List<EntityPlayer> players = manager.playerEntityList;
+        List<EntityPlayerMP> players = manager.playerEntityList;
 
         for (EntityPlayer player : players) {
             if (manager.func_152596_g(player.getGameProfile())) {

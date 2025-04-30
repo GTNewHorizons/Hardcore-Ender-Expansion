@@ -116,11 +116,11 @@ public final class TempleEvents {
             if (world == null) setStage(DestroyStage.DELETE);
             else if (world.playerEntities.isEmpty()) setStage(DestroyStage.UNLOAD);
             else {
-                List<EntityPlayerMP> players = new ArrayList<>(world.playerEntities);
+                List<EntityPlayer> players = new ArrayList<>(world.playerEntities);
 
-                for (EntityPlayerMP player : players) {
+                for (EntityPlayer player : players) {
                     if (player.ridingEntity != null) player.mountEntity(null);
-                    DragonUtil.teleportToOverworld(player);
+                    DragonUtil.teleportToOverworld((EntityPlayerMP) player);
                 }
             }
         } else if (stage == DestroyStage.UNLOAD) {

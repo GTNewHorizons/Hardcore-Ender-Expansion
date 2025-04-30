@@ -26,7 +26,6 @@ import chylex.hee.block.BlockCustomSpawner;
 import chylex.hee.block.BlockDeathFlower;
 import chylex.hee.block.BlockDeathFlowerPot;
 import chylex.hee.block.BlockDecompositionTable;
-import chylex.hee.block.BlockDragonEggCustom;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockEndPowderOre;
 import chylex.hee.block.BlockEnderGoo;
@@ -48,7 +47,6 @@ import chylex.hee.block.BlockObsidianSpecial;
 import chylex.hee.block.BlockPersegrit;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.block.BlockRavagedBrickSmooth;
-import chylex.hee.block.BlockReplaceHelper;
 import chylex.hee.block.BlockSpecialEffects;
 import chylex.hee.block.BlockSphalerite;
 import chylex.hee.block.BlockSpookyLeaves;
@@ -426,8 +424,6 @@ public final class BlockList {
     }
 
     public static void registerBlocks() {
-        BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom());
-
         for (Entry<String, Block> entry : BlockList.blocks.entrySet()) {
             GameRegistryUtil.registerBlock(entry.getValue(), entry.getKey(), itemBlocks.get(entry.getKey()));
         }

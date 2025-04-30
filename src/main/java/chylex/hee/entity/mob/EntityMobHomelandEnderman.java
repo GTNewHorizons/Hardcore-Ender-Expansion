@@ -16,7 +16,6 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -755,9 +754,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
     protected Entity findPlayerToAttack() {
         if (worldObj.isRemote) return null;
 
-        List<EntityPlayerMP> players = worldObj.playerEntities;
+        List<EntityPlayer> players = worldObj.playerEntities;
 
-        for (EntityPlayerMP player : players) {
+        for (EntityPlayer player : players) {
             if (!player.capabilities.disableDamage && getDistanceSqToEntity(player) <= 4096D) {
                 if (isPlayerStaringIntoEyes(player)) {
                     if (!shouldActHostile(player) && teleportRandomly(10D)) return null;
