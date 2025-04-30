@@ -426,7 +426,7 @@ public final class BlockList {
     }
 
     public static void registerBlocks() {
-        BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom());
+        //BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom());
 
         for (Entry<String, Block> entry : BlockList.blocks.entrySet()) {
             GameRegistryUtil.registerBlock(entry.getValue(), entry.getKey(), itemBlocks.get(entry.getKey()));
