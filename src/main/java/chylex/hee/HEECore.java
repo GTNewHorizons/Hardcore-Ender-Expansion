@@ -1,13 +1,12 @@
 package chylex.hee;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.gtnewhorizon.gtnhlib.mixin.IMixins;
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
-import chylex.hee.mixins.Mixins;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 public class HEECore implements IFMLLoadingPlugin, IEarlyMixinLoader {
@@ -19,7 +18,7 @@ public class HEECore implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
     @Override
     public List<String> getMixins(Set<String> loadedCoreMods) {
-        return IMixins.getEarlyMixins(Mixins.class, loadedCoreMods);
+        return Collections.singletonList("minecraft.MixinBlock_ReplaceDragonEgg");
     }
 
     @Override

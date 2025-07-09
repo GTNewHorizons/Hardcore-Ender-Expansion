@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import chylex.hee.block.BlockDragonEggCustom;
 
 @Mixin(Block.class)
-public class MixinBlock {
+public class MixinBlock_ReplaceDragonEgg {
 
     @ModifyArg(
             method = "registerBlocks",
