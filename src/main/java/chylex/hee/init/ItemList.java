@@ -364,7 +364,7 @@ public final class ItemList {
     public static void configureItems() {
         OreDictionary.registerOre("ingotHeeEndium", ItemList.endium_ingot);
 
-        MinecraftForge.EVENT_BUS.register(ItemList.enderman_head);
+        MinecraftForge.EVENT_BUS.register(((ItemEndermanHead)ItemList.enderman_head).handler);
         MinecraftForge.EVENT_BUS.register(ItemList.scorching_pickaxe);
         GameRegistry.registerFuelHandler((IFuelHandler) ItemList.igneous_rock);
 
