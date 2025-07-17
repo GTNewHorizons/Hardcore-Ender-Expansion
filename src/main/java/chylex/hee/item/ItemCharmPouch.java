@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
@@ -23,6 +24,7 @@ import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.integration.handlers.BaublesExpandedIntegration;
 import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.common.Optional;
@@ -89,6 +91,17 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
                 I18n.format(
                         ItemUtil.getTagRoot(is, false).getBoolean("isPouchActive") ? "item.charmPouch.info.active"
                                 : "item.charmPouch.info.inactive"));
+        if (ModIntegrationManager.baublesLoaded) addBaubleInformation(is, player, textLines, showAdvancedInfo);
+    }
+
+    private void addBaubleInformation(ItemStack is, EntityPlayer player, List<String> textLines,
+            boolean showAdvancedInfo) {
+        if (ModIntegrationManager.baublesExpandedLoaded) {
+            if (showAdvancedInfo) {
+                textLines.add(StatCollector.translateToLocal("tooltip.compatibleslots"));
+                textLines.add(StatCollector.translateToLocal("slot.charmpouch"));
+            } else textLines.add(StatCollector.translateToLocal("tooltip.shiftprompt"));
+        } else textLines.add(StatCollector.translateToLocal("baubletype.belt"));
     }
 
     @Override

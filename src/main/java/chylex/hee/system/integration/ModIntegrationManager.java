@@ -13,7 +13,30 @@ import cpw.mods.fml.common.Loader;
 
 public final class ModIntegrationManager {
 
+    public static boolean baublesLoaded;
+    public static boolean baublesExpandedLoaded;
+
     public static final Set<String> blacklistedMods = new HashSet<>();
+
+    public static void preInit() {
+        Stopwatch.time("ModIntegrationManager - preInit");
+        baublesLoaded = Loader.isModLoaded("Baubles");
+        baublesExpandedLoaded = Loader.isModLoaded("Baubles|Expanded");
+
+        Class[] handlerClasses = new Class[] { BaublesExpandedIntegration.class };
+
+        for (Class<? extends IIntegrationHandler> cls : handlerClasses) {
+            try {
+                IIntegrationHandler handler = cls.newInstance();
+                String modId = handler.getModId();
+                if (Loader.isModLoaded(modId) && !blacklistedMods.contains(modId)) handler.integrate();
+            } catch (Throwable e) {
+                Log.throwable(e, "Unable to integrate with mod $0.", cls.getSimpleName());
+            }
+        }
+
+        Stopwatch.finish("ModIntegrationManager - preInit");
+    }
 
     public static void postInit() {
         Stopwatch.time("ModIntegrationManager - postInit");
@@ -32,23 +55,5 @@ public final class ModIntegrationManager {
         }
 
         Stopwatch.finish("ModIntegrationManager - postInit");
-    }
-
-    public static void preInit() {
-        Stopwatch.time("ModIntegrationManager - preInit");
-
-        Class[] handlerClasses = new Class[] { BaublesExpandedIntegration.class };
-
-        for (Class<? extends IIntegrationHandler> cls : handlerClasses) {
-            try {
-                IIntegrationHandler handler = cls.newInstance();
-                String modId = handler.getModId();
-                if (Loader.isModLoaded(modId) && !blacklistedMods.contains(modId)) handler.integrate();
-            } catch (Throwable e) {
-                Log.throwable(e, "Unable to integrate with mod $0.", cls.getSimpleName());
-            }
-        }
-
-        Stopwatch.finish("ModIntegrationManager - preInit");
     }
 }
