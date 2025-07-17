@@ -16,6 +16,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
 import com.google.common.collect.ImmutableSet;
@@ -37,7 +38,12 @@ public class ItemScorchingPickaxe extends Item {
     private static final List<Block> cachedOres = new ArrayList<>();
     private static final Random cacheRand = new Random(0);
 
-    public static final boolean isBlockValid(Block block) {
+    public ItemScorchingPickaxe() {
+        super();
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
+    }
+
+    public static boolean isBlockValid(Block block) {
         if (cachedBlocks.containsKey(block)) return cachedBlocks.get(block).booleanValue();
 
         if (FurnaceRecipes.smelting().getSmeltingResult(new ItemStack(block)) != null) {
@@ -119,58 +125,61 @@ public class ItemScorchingPickaxe extends Item {
         return true;
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onBlockDropItems(HarvestDropsEvent e) {
-        if (e.harvester == null) return;
+    public class EventHandler {
 
-        ItemStack heldItem = e.harvester.getHeldItem();
-        if (heldItem == null || heldItem.getItem() != this) return;
+        @SubscribeEvent(priority = EventPriority.LOWEST)
+        public void onBlockDropItems(HarvestDropsEvent e) {
+            if (e.harvester == null) return;
 
-        if (isBlockValid(e.block) && !e.drops.isEmpty()) {
-            e.dropChance = 1F;
+            ItemStack heldItem = e.harvester.getHeldItem();
+            if (heldItem == null || heldItem.getItem() != ItemScorchingPickaxe.this) return;
 
-            ItemStack drop = e.drops.get(0);
-            drop.stackSize = 1;
+            if (isBlockValid(e.block) && !e.drops.isEmpty()) {
+                e.dropChance = 1F;
 
-            for (ItemStack blockDrop : e.drops) {
-                if (drop.getItem() != blockDrop.getItem()) return;
-            }
+                ItemStack drop = e.drops.get(0);
+                drop.stackSize = 1;
 
-            e.drops.clear();
-            Random rand = e.world.rand;
-
-            if (drop.getItem() instanceof ItemBlock) {
-                ItemStack result = null;
-                ItemStack smelted = FurnaceRecipes.smelting().getSmeltingResult(drop);
-
-                if (smelted == null) return;
-                else if (smelted.getItem() instanceof ItemBlock) result = smelted.copy();
-                else {
-                    result = smelted.copy();
-
-                    int fortune = 0;
-                    for (int a = 0; a < 5; a++) fortune += 1 + rand.nextInt(3 + rand.nextInt(3));
-                    fortune = 1 + MathUtil.floor(
-                            fortune * (0.35D * rand.nextDouble()
-                                    * rand.nextDouble()
-                                    * Math.pow(FurnaceRecipes.smelting().func_151398_b(result), 2.6D)
-                                    + (fortune * 0.06D)) / 6.4D); // OBFUSCATED getExperience
-                    result.stackSize = fortune;
+                for (ItemStack blockDrop : e.drops) {
+                    if (drop.getItem() != blockDrop.getItem()) return;
                 }
 
-                e.drops.add(result);
-            } else {
-                int fortune = 0;
-                for (int a = 0; a < 4; a++)
-                    fortune += e.block.quantityDropped(e.blockMetadata, 3 + rand.nextInt(3) - rand.nextInt(2), rand);
-                for (int a = 0; a < 4; a++) fortune += e.block.quantityDropped(e.blockMetadata, 0, rand);
-                fortune = 1 + MathUtil.floor(
-                        (fortune + e.block.getExpDrop(e.world, e.blockMetadata, 0) / 2D)
-                                * (rand.nextDouble() + (rand.nextDouble() * 0.5D) + 0.35D)
-                                / 6D);
+                e.drops.clear();
+                Random rand = e.world.rand;
 
-                drop.stackSize = fortune;
-                e.drops.add(drop);
+                if (drop.getItem() instanceof ItemBlock) {
+                    ItemStack result = null;
+                    ItemStack smelted = FurnaceRecipes.smelting().getSmeltingResult(drop);
+
+                    if (smelted == null) return;
+                    else if (smelted.getItem() instanceof ItemBlock) result = smelted.copy();
+                    else {
+                        result = smelted.copy();
+
+                        int fortune = 0;
+                        for (int a = 0; a < 5; a++) fortune += 1 + rand.nextInt(3 + rand.nextInt(3));
+                        fortune = 1 + MathUtil.floor(
+                                fortune * (0.35D * rand.nextDouble()
+                                        * rand.nextDouble()
+                                        * Math.pow(FurnaceRecipes.smelting().func_151398_b(result), 2.6D)
+                                        + (fortune * 0.06D)) / 6.4D); // OBFUSCATED getExperience
+                        result.stackSize = fortune;
+                    }
+
+                    e.drops.add(result);
+                } else {
+                    int fortune = 0;
+                    for (int a = 0; a < 4; a++) fortune += e.block
+                            .quantityDropped(e.blockMetadata, 3 + rand.nextInt(3) - rand.nextInt(2), rand);
+                    for (int a = 0; a < 4; a++) fortune += e.block.quantityDropped(e.blockMetadata, 0, rand);
+                    fortune = 1 + MathUtil.floor(
+                            (fortune + e.block.getExpDrop(e.world, e.blockMetadata, 0) / 2D)
+                                    * (rand.nextDouble() + (rand.nextDouble() * 0.5D) + 0.35D)
+                                    / 6D);
+
+                    drop.stackSize = fortune;
+                    e.drops.add(drop);
+                }
             }
         }
     }

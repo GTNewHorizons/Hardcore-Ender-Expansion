@@ -12,6 +12,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
@@ -43,6 +44,7 @@ public class BlockEnderGoo extends BlockFluidClassic {
         setQuantaPerBlock(5);
         setTickRate(18);
         setTickRandomly(true);
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
     @Override
@@ -122,19 +124,23 @@ public class BlockEnderGoo extends BlockFluidClassic {
         HardcoreEnderExpansion.fx.enderGoo(world, x, y, z);
     }
 
-    @SubscribeEvent
-    public void onBucketFill(FillBucketEvent e) {
-        if (BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).getBlock(e.world) == this) {
-            BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).setAir(e.world);
-            e.result = new ItemStack(ItemList.bucket_ender_goo);
-            e.setResult(Result.ALLOW);
-        }
-    }
-
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         super.registerBlockIcons(iconRegister);
         fluid.setIcons(blockIcon);
+    }
+
+    public class EventHandler {
+
+        @SubscribeEvent
+        public void onBucketFill(FillBucketEvent e) {
+            if (BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).getBlock(e.world)
+                    == BlockEnderGoo.this) {
+                BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).setAir(e.world);
+                e.result = new ItemStack(ItemList.bucket_ender_goo);
+                e.setResult(Result.ALLOW);
+            }
+        }
     }
 }

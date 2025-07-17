@@ -14,7 +14,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -496,9 +495,6 @@ public final class BlockList {
             OreDictionary.registerOre("oreHeeStardust", new ItemStack(BlockList.stardust_ore, 1, meta));
         OreDictionary.registerOre("oreHeeIgneousRock", BlockList.igneous_rock_ore);
         OreDictionary.registerOre("oreHeeInstabilityOrb", BlockList.instability_orb_ore);
-
-        MinecraftForge.EVENT_BUS.register(BlockList.essence_altar);
-        MinecraftForge.EVENT_BUS.register(BlockList.ender_goo);
     }
 
     public static void registerTileEntities() {

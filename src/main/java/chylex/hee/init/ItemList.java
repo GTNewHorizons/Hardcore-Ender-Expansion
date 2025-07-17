@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -363,11 +362,7 @@ public final class ItemList {
 
     public static void configureItems() {
         OreDictionary.registerOre("ingotHeeEndium", ItemList.endium_ingot);
-
-        MinecraftForge.EVENT_BUS.register(ItemList.enderman_head);
-        MinecraftForge.EVENT_BUS.register(ItemList.scorching_pickaxe);
         GameRegistry.registerFuelHandler((IFuelHandler) ItemList.igneous_rock);
-
         FluidContainerRegistry.registerFluidContainer(
                 BlockEnderGoo.fluid,
                 new ItemStack(ItemList.bucket_ender_goo),
