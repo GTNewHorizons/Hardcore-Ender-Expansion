@@ -2,6 +2,7 @@ package chylex.hee.item;
 
 import java.util.List;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -91,13 +92,13 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
                 I18n.format(
                         ItemUtil.getTagRoot(is, false).getBoolean("isPouchActive") ? "item.charmPouch.info.active"
                                 : "item.charmPouch.info.inactive"));
-        if (ModIntegrationManager.baublesLoaded) addBaubleInformation(is, player, textLines, showAdvancedInfo);
+        if (ModIntegrationManager.baublesLoaded) addBaubleInformation(textLines);
     }
 
-    private void addBaubleInformation(ItemStack is, EntityPlayer player, List<String> textLines,
-            boolean showAdvancedInfo) {
+    @SideOnly(Side.CLIENT)
+    private void addBaubleInformation(List<String> textLines) {
         if (ModIntegrationManager.baublesExpandedLoaded) {
-            if (showAdvancedInfo) {
+            if (GuiScreen.isShiftKeyDown()) {
                 textLines.add(StatCollector.translateToLocal("tooltip.compatibleslots"));
                 textLines.add(StatCollector.translateToLocal("slot.charmpouch"));
             } else textLines.add(StatCollector.translateToLocal("tooltip.shiftprompt"));
