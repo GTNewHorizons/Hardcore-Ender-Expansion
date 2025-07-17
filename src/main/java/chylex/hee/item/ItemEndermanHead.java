@@ -23,7 +23,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemEndermanHead extends Item {
 
     public EventHandler handler;
-    public ItemEndermanHead(){
+
+    public ItemEndermanHead() {
         super();
         handler = new EventHandler();
     }
@@ -81,6 +82,7 @@ public class ItemEndermanHead extends Item {
             "hardcoreenderexpansion:textures/armor/enderman_head.png");
 
     public class EventHandler {
+
         @SubscribeEvent
         @SideOnly(Side.CLIENT)
         public void onArmorModelSet(RenderPlayerEvent.SetArmorModel e) {

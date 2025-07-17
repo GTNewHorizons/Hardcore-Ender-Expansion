@@ -37,6 +37,7 @@ public class BlockEnderGoo extends BlockFluidClassic {
             zOff = new byte[] { 0, 0, 0, 0, -1, 1 };
 
     public EventHandler handler;
+
     public BlockEnderGoo() {
         super(fluid, enderGoo);
         disableStats();
@@ -131,10 +132,12 @@ public class BlockEnderGoo extends BlockFluidClassic {
         fluid.setIcons(blockIcon);
     }
 
-    public class EventHandler{
+    public class EventHandler {
+
         @SubscribeEvent
         public void onBucketFill(FillBucketEvent e) {
-            if (BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).getBlock(e.world) == BlockEnderGoo.this) {
+            if (BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).getBlock(e.world)
+                    == BlockEnderGoo.this) {
                 BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).setAir(e.world);
                 e.result = new ItemStack(ItemList.bucket_ender_goo);
                 e.setResult(Result.ALLOW);

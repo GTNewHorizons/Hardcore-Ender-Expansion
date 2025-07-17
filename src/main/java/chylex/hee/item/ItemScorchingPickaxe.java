@@ -37,6 +37,7 @@ public class ItemScorchingPickaxe extends Item {
     private static final List<Block> cachedOres = new ArrayList<>();
     private static final Random cacheRand = new Random(0);
     public EventHandler handler;
+
     public ItemScorchingPickaxe() {
         super();
         handler = new EventHandler();
@@ -125,6 +126,7 @@ public class ItemScorchingPickaxe extends Item {
     }
 
     public class EventHandler {
+
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public void onBlockDropItems(HarvestDropsEvent e) {
             if (e.harvester == null) return;
@@ -167,8 +169,8 @@ public class ItemScorchingPickaxe extends Item {
                     e.drops.add(result);
                 } else {
                     int fortune = 0;
-                    for (int a = 0; a < 4; a++)
-                        fortune += e.block.quantityDropped(e.blockMetadata, 3 + rand.nextInt(3) - rand.nextInt(2), rand);
+                    for (int a = 0; a < 4; a++) fortune += e.block
+                            .quantityDropped(e.blockMetadata, 3 + rand.nextInt(3) - rand.nextInt(2), rand);
                     for (int a = 0; a < 4; a++) fortune += e.block.quantityDropped(e.blockMetadata, 0, rand);
                     fortune = 1 + MathUtil.floor(
                             (fortune + e.block.getExpDrop(e.world, e.blockMetadata, 0) / 2D)
