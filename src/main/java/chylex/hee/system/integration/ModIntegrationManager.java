@@ -3,6 +3,7 @@ package chylex.hee.system.integration;
 import java.util.HashSet;
 import java.util.Set;
 
+import chylex.hee.system.integration.handlers.BaublesExpandedIntegration;
 import chylex.hee.system.integration.handlers.MineFactoryReloadedIntegration;
 import chylex.hee.system.integration.handlers.NotEnoughItemsIntegration;
 import chylex.hee.system.integration.handlers.ThaumcraftIntegration;
@@ -14,8 +15,8 @@ public final class ModIntegrationManager {
 
     public static final Set<String> blacklistedMods = new HashSet<>();
 
-    public static final void integrateMods() {
-        Stopwatch.time("ModIntegrationManager - integrateMods");
+    public static void postInit() {
+        Stopwatch.time("ModIntegrationManager - postInit");
 
         Class[] handlerClasses = new Class[] { NotEnoughItemsIntegration.class, ThaumcraftIntegration.class,
                 MineFactoryReloadedIntegration.class };
@@ -30,6 +31,24 @@ public final class ModIntegrationManager {
             }
         }
 
-        Stopwatch.finish("ModIntegrationManager - integrateMods");
+        Stopwatch.finish("ModIntegrationManager - postInit");
+    }
+
+    public static void preInit() {
+        Stopwatch.time("ModIntegrationManager - preInit");
+
+        Class[] handlerClasses = new Class[] { BaublesExpandedIntegration.class };
+
+        for (Class<? extends IIntegrationHandler> cls : handlerClasses) {
+            try {
+                IIntegrationHandler handler = cls.newInstance();
+                String modId = handler.getModId();
+                if (Loader.isModLoaded(modId) && !blacklistedMods.contains(modId)) handler.integrate();
+            } catch (Throwable e) {
+                Log.throwable(e, "Unable to integrate with mod $0.", cls.getSimpleName());
+            }
+        }
+
+        Stopwatch.finish("ModIntegrationManager - preInit");
     }
 }

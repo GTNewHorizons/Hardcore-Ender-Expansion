@@ -63,7 +63,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
         version = Tags.VERSION,
         useMetadata = true,
         guiFactory = "chylex.hee.gui.core.ModGuiFactory",
-        dependencies = "required-after:gtnhlib@[0.5.22,)")
+        dependencies = "required-after:gtnhlib@[0.5.22,);after:Baubles|Expanded")
 public class HardcoreEnderExpansion {
 
     @Instance("HardcoreEnderExpansion")
@@ -146,6 +146,10 @@ public class HardcoreEnderExpansion {
         PlayerTransportBeacons.register();
         DragonChunkManager.register();
 
+        // COMPAT
+
+        ModIntegrationManager.preInit();
+
         Stopwatch.finish("PreInitEvent - events");
 
         proxy.registerSidedEvents();
@@ -179,7 +183,7 @@ public class HardcoreEnderExpansion {
         KnowledgeRegistrations.initialize();
         OrbAcquirableItems.initialize(true);
         OrbSpawnableMobs.initialize();
-        ModIntegrationManager.integrateMods();
+        ModIntegrationManager.postInit();
         DimensionOverride.postInit();
 
         UnitTester.trigger(RunTime.POSTINIT);
