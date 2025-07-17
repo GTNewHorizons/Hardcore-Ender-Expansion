@@ -9,6 +9,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.lwjgl.opengl.GL11;
 
@@ -22,11 +23,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemEndermanHead extends Item {
 
-    public EventHandler handler;
-
     public ItemEndermanHead() {
         super();
-        handler = new EventHandler();
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
     @Override

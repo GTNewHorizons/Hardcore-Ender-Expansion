@@ -12,6 +12,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
@@ -36,8 +37,6 @@ public class BlockEnderGoo extends BlockFluidClassic {
     private final byte[] xOff = new byte[] { -1, 1, 0, 0, 0, 0 }, yOff = new byte[] { 0, 0, -1, 1, 0, 0 },
             zOff = new byte[] { 0, 0, 0, 0, -1, 1 };
 
-    public EventHandler handler;
-
     public BlockEnderGoo() {
         super(fluid, enderGoo);
         disableStats();
@@ -45,7 +44,7 @@ public class BlockEnderGoo extends BlockFluidClassic {
         setQuantaPerBlock(5);
         setTickRate(18);
         setTickRandomly(true);
-        handler = new EventHandler();
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
     @Override

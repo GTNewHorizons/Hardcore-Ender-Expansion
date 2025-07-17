@@ -16,6 +16,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
 import com.google.common.collect.ImmutableSet;
@@ -36,14 +37,13 @@ public class ItemScorchingPickaxe extends Item {
     private static final Map<Block, Boolean> cachedBlocks = new IdentityHashMap<>();
     private static final List<Block> cachedOres = new ArrayList<>();
     private static final Random cacheRand = new Random(0);
-    public EventHandler handler;
 
     public ItemScorchingPickaxe() {
         super();
-        handler = new EventHandler();
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
-    public static final boolean isBlockValid(Block block) {
+    public static boolean isBlockValid(Block block) {
         if (cachedBlocks.containsKey(block)) return cachedBlocks.get(block).booleanValue();
 
         if (FurnaceRecipes.smelting().getSmeltingResult(new ItemStack(block)) != null) {
