@@ -36,6 +36,7 @@ public class BlockEnderGoo extends BlockFluidClassic {
     private final byte[] xOff = new byte[] { -1, 1, 0, 0, 0, 0 }, yOff = new byte[] { 0, 0, -1, 1, 0, 0 },
             zOff = new byte[] { 0, 0, 0, 0, -1, 1 };
 
+    public EventHandler handler;
     public BlockEnderGoo() {
         super(fluid, enderGoo);
         disableStats();
@@ -43,6 +44,7 @@ public class BlockEnderGoo extends BlockFluidClassic {
         setQuantaPerBlock(5);
         setTickRate(18);
         setTickRandomly(true);
+        handler = new EventHandler();
     }
 
     @Override
@@ -122,19 +124,21 @@ public class BlockEnderGoo extends BlockFluidClassic {
         HardcoreEnderExpansion.fx.enderGoo(world, x, y, z);
     }
 
-    @SubscribeEvent
-    public void onBucketFill(FillBucketEvent e) {
-        if (BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).getBlock(e.world) == this) {
-            BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).setAir(e.world);
-            e.result = new ItemStack(ItemList.bucket_ender_goo);
-            e.setResult(Result.ALLOW);
-        }
-    }
-
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         super.registerBlockIcons(iconRegister);
         fluid.setIcons(blockIcon);
+    }
+
+    public class EventHandler{
+        @SubscribeEvent
+        public void onBucketFill(FillBucketEvent e) {
+            if (BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).getBlock(e.world) == BlockEnderGoo.this) {
+                BlockPosM.tmp(e.target.blockX, e.target.blockY, e.target.blockZ).setAir(e.world);
+                e.result = new ItemStack(ItemList.bucket_ender_goo);
+                e.setResult(Result.ALLOW);
+            }
+        }
     }
 }
