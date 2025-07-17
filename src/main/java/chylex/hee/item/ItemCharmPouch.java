@@ -28,9 +28,10 @@ import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
 @Optional.InterfaceList({
-@Optional.Interface(iface = "baubles.api.expanded.IBaubleExpanded", modid = "Baubles|Expanded"),
-@Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles")})
+        @Optional.Interface(iface = "baubles.api.expanded.IBaubleExpanded", modid = "Baubles|Expanded"),
+        @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles") })
 public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
 
     @Override
@@ -142,32 +143,41 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
         return new String[] { BaublesExpandedIntegration.BAUBLESLOT };
     }
 
+    // Fallback for base Baubles
     @Override
-    @cpw.mods.fml.common.Optional.Method(modid = "Baubles")
+    @Optional.Method(modid = "Baubles")
     public BaubleType getBaubleType(ItemStack itemStack) {
         return BaubleType.BELT;
     }
 
     @Override
-    @cpw.mods.fml.common.Optional.Method(modid = "Baubles")
-    public void onWornTick(ItemStack itemstack, EntityLivingBase player) {}
+    @Optional.Method(modid = "Baubles")
+    public void onWornTick(ItemStack itemstack, EntityLivingBase player) {
+        onUpdate(itemstack, player.worldObj, player, 0, false);
+    }
 
     @Override
-    @cpw.mods.fml.common.Optional.Method(modid = "Baubles")
-    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {}
+    @Optional.Method(modid = "Baubles")
+    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {
+        EntityPlayer entityPlayer = (EntityPlayer) player;
+        CharmPouchHandler.setActivePouch(entityPlayer, itemstack);
+        ItemUtil.getTagRoot(itemstack, true).setBoolean("isPouchActive", true);
+        CharmPouchHandler.getActivePouch(entityPlayer).update(player.worldObj);
+    }
 
+    // Should not be toggled off because it still can be active in the inventory
     @Override
-    @cpw.mods.fml.common.Optional.Method(modid = "Baubles")
+    @Optional.Method(modid = "Baubles")
     public void onUnequipped(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
-    @cpw.mods.fml.common.Optional.Method(modid = "Baubles")
+    @Optional.Method(modid = "Baubles")
     public boolean canEquip(ItemStack itemstack, EntityLivingBase player) {
         return true;
     }
 
     @Override
-    @cpw.mods.fml.common.Optional.Method(modid = "Baubles")
+    @Optional.Method(modid = "Baubles")
     public boolean canUnequip(ItemStack itemstack, EntityLivingBase player) {
         return true;
     }
