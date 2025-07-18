@@ -96,6 +96,7 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
     }
 
     @SideOnly(Side.CLIENT)
+    @Optional.Method(modid = "Baubles")
     private void addBaubleInformation(List<String> textLines) {
         if (ModIntegrationManager.baublesExpandedLoaded) {
             if (GuiScreen.isShiftKeyDown()) {
@@ -153,6 +154,7 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
     }
 
     @Override
+    @Optional.Method(modid = "Baubles")
     public String[] getBaubleTypes(ItemStack itemstack) {
         return new String[] { BaublesExpandedIntegration.BAUBLESLOT };
     }
