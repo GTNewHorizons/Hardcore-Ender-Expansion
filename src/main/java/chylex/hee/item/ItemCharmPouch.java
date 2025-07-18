@@ -154,7 +154,7 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
     }
 
     @Override
-    @Optional.Method(modid = "Baubles")
+    @Optional.Method(modid = "Baubles|Expanded")
     public String[] getBaubleTypes(ItemStack itemstack) {
         return new String[] { BaublesExpandedIntegration.BAUBLESLOT };
     }
