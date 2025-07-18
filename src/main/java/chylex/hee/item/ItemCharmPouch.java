@@ -2,7 +2,6 @@ package chylex.hee.item;
 
 import java.util.List;
 
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,6 +17,7 @@ import net.minecraftforge.common.util.Constants;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
+import baubles.api.expanded.BaubleItemHelper;
 import baubles.api.expanded.IBaubleExpanded;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.init.ItemList;
@@ -99,10 +99,7 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
     @Optional.Method(modid = "Baubles")
     private void addBaubleInformation(List<String> textLines) {
         if (ModIntegrationManager.baublesExpandedLoaded) {
-            if (GuiScreen.isShiftKeyDown()) {
-                textLines.add(StatCollector.translateToLocal("tooltip.compatibleslots"));
-                textLines.add(StatCollector.translateToLocal("slot.charmpouch"));
-            } else textLines.add(StatCollector.translateToLocal("tooltip.shiftprompt"));
+            BaubleItemHelper.addSlotInformation(textLines, getBaubleTypes(null));
         } else textLines.add(StatCollector.translateToLocal("baubletype.belt"));
     }
 

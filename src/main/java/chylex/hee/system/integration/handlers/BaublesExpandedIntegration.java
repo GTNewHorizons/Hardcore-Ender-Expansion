@@ -5,7 +5,7 @@ import chylex.hee.system.integration.IIntegrationHandler;
 
 public class BaublesExpandedIntegration implements IIntegrationHandler {
 
-    public static final String BAUBLESLOT = "charmpouch";
+    public static final String BAUBLESLOT = "charm_pouch";
 
     @Override
     public String getModId() {
