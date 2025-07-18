@@ -1,12 +1,6 @@
 Hardcore Ender Expansion
 ========================
 
-## Translating
-
-DO NOT MODIFY THE LANGUAGE FILES, THEY WILL GET AUTOMATICALLY REPLACED BY THE TRANSLATION SYSTEM!
-
-Use http://hee-translate.chylex.com/ for translations instead.
-
 ## Permission to use own HHE Fork
 
 Hi, no problem at all, just change the version number to something
