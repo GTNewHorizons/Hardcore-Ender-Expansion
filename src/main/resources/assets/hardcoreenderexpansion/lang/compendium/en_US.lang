@@ -375,7 +375,8 @@ ec.reg.514=Slab made of $b:~ravaged_brick/0, weaker than the full block.
 ec.reg.516=Fence made of $b:~ravaged_brick/0, weaker than the full block.
 
 ec.reg.520=Magical pouch that allows creating, holding and activating $i:~charm:Charms$.
-ec.reg.522=Sneaking and using the pouch activates or deactives the $i:~charm:Charms$. Only one pouch can be active at a time.
+ec.reg.522=Sneaking and using the pouch activates or deactivates the $i:~charm:Charms$. Only one pouch can be active at a time.
+ec.reg.523=The Charm Pouch must stay in the inventory for its $i:~charm:Charms$ to grant their effects. It may also be equipped to a Baubles or Baubles Expanded slot if either of those mods is present.
 
 ec.reg.530=Runes are used to create $i:~charm:Charms$, and craft $i:~charm_pouch.
 ec.reg.531=There are 6 types of Runes - Power, Agility, Vigor, Defense, Magic and Void. The Void rune is less common than other types.
