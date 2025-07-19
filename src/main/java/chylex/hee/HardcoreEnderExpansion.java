@@ -63,7 +63,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
         version = Tags.VERSION,
         useMetadata = true,
         guiFactory = "chylex.hee.gui.core.ModGuiFactory",
-        dependencies = "required-after:gtnhlib@[0.5.22,);after:Baubles|Expanded")
+        dependencies = "required-after:gtnhlib@[0.5.22,)")
 public class HardcoreEnderExpansion {
 
     @Instance("HardcoreEnderExpansion")
