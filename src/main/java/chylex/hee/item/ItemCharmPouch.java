@@ -43,15 +43,19 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
             return;
         }
 
-        if (world.isRemote) CharmPouchHandlerClient.onActivePouchUpdate((EntityPlayer) entity, is);
-        else {
+        if (world.isRemote) {
+            CharmPouchHandlerClient.onActivePouchUpdate((EntityPlayer) entity, is);
+        } else {
             CharmPouchInfo pouchInfo = CharmPouchHandler.getActivePouch((EntityPlayer) entity);
 
             if (pouchInfo == null) {
                 CharmPouchHandler.setActivePouch((EntityPlayer) entity, is);
                 CharmPouchHandler.getActivePouch((EntityPlayer) entity).update(world);
-            } else if (pouchInfo.pouchID != getPouchID(is)) is.getTagCompound().setBoolean("isPouchActive", false);
-            else pouchInfo.update(world);
+            } else if (pouchInfo.pouchID != getPouchID(is)) {
+                is.getTagCompound().setBoolean("isPouchActive", false);
+            } else {
+                pouchInfo.update(world);
+            }
         }
     }
 
@@ -66,7 +70,9 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
             CharmPouchHandler.setActivePouch(player, deactivate ? null : is);
             ItemUtil.getTagRoot(is, true).setBoolean("isPouchActive", !deactivate);
             if (!deactivate) CharmPouchHandler.getActivePouch(player).update(world);
-        } else player.openGui(HardcoreEnderExpansion.instance, 5, world, 0, 0, 0);
+        } else {
+            player.openGui(HardcoreEnderExpansion.instance, 5, world, 0, 0, 0);
+        }
 
         return is;
     }
@@ -100,7 +106,9 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
     private void addBaubleInformation(List<String> textLines) {
         if (ModIntegrationManager.baublesExpandedLoaded) {
             BaubleItemHelper.addSlotInformation(textLines, getBaubleTypes(null));
-        } else textLines.add(StatCollector.translateToLocal("baubletype.belt"));
+        } else {
+            textLines.add(StatCollector.translateToLocal("baubletype.belt"));
+        }
     }
 
     @Override
@@ -144,7 +152,9 @@ public class ItemCharmPouch extends Item implements IBauble, IBaubleExpanded {
                 NBTTagCompound tag = new NBTTagCompound();
                 tag.setBoolean("null", true);
                 tagCharms.appendTag(tag);
-            } else tagCharms.appendTag(charm.writeToNBT(new NBTTagCompound()));
+            } else {
+                tagCharms.appendTag(charm.writeToNBT(new NBTTagCompound()));
+            }
         }
 
         ItemUtil.getTagRoot(pouch, true).setTag("pouchCharms", tagCharms);
