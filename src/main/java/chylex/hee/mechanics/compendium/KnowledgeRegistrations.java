@@ -1052,7 +1052,8 @@ public final class KnowledgeRegistrations {
                                         new KnowledgeFragmentCrafting(521)
                                                 .setRecipe(new ItemStack(ItemList.charm_pouch)).setPrice(10)
                                                 .setUnlockRequirements(520).setUnlockCascade(533),
-                                        new KnowledgeFragmentText(522).setPrice(5).setUnlockRequirements(520) }),
+                                        new KnowledgeFragmentText(522).setPrice(5).setUnlockRequirements(520),
+                                        new KnowledgeFragmentText(523).setPrice(2).setUnlockRequirements(522) }),
 
                         RUNES.setPos(3, 18).setUnlockPrice(25).setDiscoveryReward(18).addFragments(
                                 new KnowledgeFragment[] {

@@ -384,3 +384,7 @@ challenge.difficulty.mediumorhard=Normal / Hard difficulty
 baconizer.bacon=bacon
 
 fluid.enderGoo=Ender Goo
+
+# Baubles (Expanded) Compat
+baubletype.belt=Equippable in the §aBelt§7 slot
+slot.charm_pouch=§aCharm Pouch§7
