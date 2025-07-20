@@ -146,6 +146,10 @@ public class HardcoreEnderExpansion {
         PlayerTransportBeacons.register();
         DragonChunkManager.register();
 
+        // COMPAT
+
+        ModIntegrationManager.preInit();
+
         Stopwatch.finish("PreInitEvent - events");
 
         proxy.registerSidedEvents();
@@ -179,7 +183,7 @@ public class HardcoreEnderExpansion {
         KnowledgeRegistrations.initialize();
         OrbAcquirableItems.initialize(true);
         OrbSpawnableMobs.initialize();
-        ModIntegrationManager.integrateMods();
+        ModIntegrationManager.postInit();
         DimensionOverride.postInit();
 
         UnitTester.trigger(RunTime.POSTINIT);

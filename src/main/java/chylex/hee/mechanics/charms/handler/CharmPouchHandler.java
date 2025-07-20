@@ -8,12 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
-import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
-import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
@@ -61,19 +58,6 @@ public final class CharmPouchHandler {
         }
 
         refresh = false;
-    }
-
-    @SubscribeEvent
-    public void onPlayerLoggedIn(PlayerLoggedInEvent e) {
-        ItemStack[] mainInv = e.player.inventory.mainInventory;
-
-        for (int a = 0; a < mainInv.length; a++) {
-            if (mainInv[a] != null && mainInv[a].getItem() == ItemList.charm_pouch
-                    && ItemUtil.getTagRoot(mainInv[a], false).getBoolean("isPouchActive")) {
-                setActivePouch(e.player, mainInv[a]);
-                break;
-            }
-        }
     }
 
     @SubscribeEvent
