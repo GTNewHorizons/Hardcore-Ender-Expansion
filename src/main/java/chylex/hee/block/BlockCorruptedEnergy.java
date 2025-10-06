@@ -67,16 +67,18 @@ public class BlockCorruptedEnergy extends Block {
 
         if (meta > 1) {
             BlockPosM tmpPos = BlockPosM.tmp();
-
-            for (int a = 0; a < 6; a++) {
-                if (rand.nextInt(3) == 0) {
+            int changed = 0;
+            for (int a = 0; a < 6 && changed < 1; a++) {
+                if (rand.nextInt(6) == 0) { // slower spread: 1/6 chance
                     Block block = tmpPos.set(x + offsetX[a], y + offsetY[a], z + offsetZ[a]).getBlock(world);
-
-                    if (block.getMaterial() == Material.air) tmpPos.setBlock(world, this, meta - 1);
-                    else if (!block.isOpaqueCube()
+                    if (block.getMaterial() == Material.air) {
+                        tmpPos.setBlock(world, this, meta - 1);
+                        changed++;
+                    } else if (!block.isOpaqueCube()
                             && tmpPos.set(x + offsetX[a] * 2, y + offsetY[a] * 2, z + offsetZ[a] * 2).getMaterial(world)
                                     == Material.air) {
                                         tmpPos.setBlock(world, this, meta - 1, 3);
+                                        changed++;
                                     }
                 }
             }
@@ -90,7 +92,9 @@ public class BlockCorruptedEnergy extends Block {
             } else BlockPosM.tmp(x, y, z).setMetadata(world, meta - 1);
         }
 
-        world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+        if (meta > 0 && world.rand.nextInt(3) == 0) {
+            world.scheduleBlockUpdate(x, y, z, this, tickRate(world) * 3);
+        }
     }
 
     @Override
