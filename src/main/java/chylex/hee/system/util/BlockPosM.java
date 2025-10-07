@@ -202,6 +202,13 @@ public class BlockPosM {
         return world.setBlock(x, y, z, block, metadata, 3);
     }
 
+    public boolean setBlockOnlyLoaded(World world, Block block, int metadata) {
+        if (!world.blockExists(x, y, z)) {
+            return false;
+        }
+        return world.setBlock(x, y, z, block, metadata, 3);
+    }
+
     public boolean setBlock(World world, Block block, int metadata, int flags) {
         return world.setBlock(x, y, z, block, metadata, flags);
     }
