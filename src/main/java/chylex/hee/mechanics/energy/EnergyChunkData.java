@@ -47,7 +47,7 @@ public class EnergyChunkData {
             energyLevel -= release;
             releaseTimer = (byte) (4 + rand.nextInt(7));
 
-            BlockPosM.tmp(x + rand.nextInt(16), 8 + rand.nextInt(116), z + rand.nextInt(16)).setBlock(
+            BlockPosM.tmp(x + rand.nextInt(16), 8 + rand.nextInt(116), z + rand.nextInt(16)).setBlockOnlyLoaded(
                     world,
                     BlockList.corrupted_energy_low,
                     MathUtil.clamp(MathUtil.floor(1F + release * 12F), 2, 8));
