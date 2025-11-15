@@ -1191,7 +1191,7 @@ public final class KnowledgeRegistrations {
                         HAUNTED_MINER.setPos(0, 13).setUnlockPrice(25).setDiscoveryReward(15).addFragments(
                                 new KnowledgeFragment[] {
                                         new KnowledgeFragmentText(650).setPrice(7).setUnlockOnDiscovery(),
-                                        new KnowledgeFragmentText(651).setPrice(7).setUnlockRequirements(651),
+                                        new KnowledgeFragmentText(651).setPrice(7).setUnlockRequirements(650),
                                         new KnowledgeFragmentText(652).setPrice(4).setUnlockRequirements(650),
                                         new KnowledgeFragmentText(653).setPrice(4).setUnlockRequirements(650),
                                         new KnowledgeFragmentText(654).setPrice(4).setUnlockRequirements(653),
