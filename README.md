@@ -94,4 +94,4 @@ When you download Forge, do not copy the *src* folder and *build.gradle* file, a
 
 Please report any bugs/issues to the [GTNH Github](https://github.com/GTNewHorizons/GT-New-Horizons-Modpack/issues).
 
-Always provide as much information and details as possible. If you're reporting a bug or a crash, always **provide logs** (both crash and client/server log) and conditions under which the bug or crash happened!
+Always provide as much information and detail as possible. If you're reporting a bug or a crash, always **provide logs** (both crash and client/server log) and conditions under which the bug or crash happened!
