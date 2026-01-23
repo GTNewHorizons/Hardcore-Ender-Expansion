@@ -57,7 +57,8 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor {
 
     @Override
     public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player) {
-        if (is.getItemDamage() < getMaxDamage() && (!is.hasTagCompound() || !is.getTagCompound().hasKey("cooldown"))) {
+        if (is.getItemDamage() < is.getMaxDamage()
+                && (!is.hasTagCompound() || !is.getTagCompound().hasKey("cooldown"))) {
             if (!world.isRemote) {
                 CausatumUtils.increase(player, CausatumMeters.ITEM_USAGE, 0.5F);
                 damageItem(is, player);
