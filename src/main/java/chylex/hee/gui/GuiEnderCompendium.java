@@ -15,6 +15,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -547,8 +548,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer {
         drawTexturedModalRect(d - 16, height - d - 8, 0, 25, 24, 24);
         drawTexturedModalRect(width - d - 8, height - d - 8, 25, 25, 24, 24);
 
-        String title = ModCommonProxy.hardcoreEnderbacon ? "Hardcore Bacon Expansion - Bacon Compendium"
-                : "Hardcore Ender Expansion - Ender Compendium";
+        String title = ModCommonProxy.hardcoreEnderbacon ? I18n.format("ec.title.main.bacon")
+                : I18n.format("ec.title.main");
         fontRendererObj.drawString(title, (width >> 1) - (fontRendererObj.getStringWidth(title) >> 1), 14, 0x404040);
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -565,7 +566,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer {
         renderItem.renderItemIntoGUI(fontRendererObj, mc.getTextureManager(), knowledgeFragmentIS, x + 3, y + 1);
 
         String pointAmount = String.valueOf(compendiumData.getPoints());
-        fontRendererObj.drawString(pointAmount, x + 50 - fontRendererObj.getStringWidth(pointAmount), y + 6, 0x404040);
+        String pointAmountText = StatCollector.canTranslate("ec.pointAmount")
+                ? I18n.format("ec.pointAmount", pointAmount)
+                : pointAmount;
+        fontRendererObj
+                .drawString(pointAmountText, x + 50 - fontRendererObj.getStringWidth(pointAmountText), y + 6, 0x404040);
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
