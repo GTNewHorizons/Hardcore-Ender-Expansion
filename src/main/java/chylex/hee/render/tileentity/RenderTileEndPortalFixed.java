@@ -20,7 +20,7 @@ public class RenderTileEndPortalFixed extends RenderEndPortal {
     private static final ResourceLocation texPortalBackground = new ResourceLocation(
             "textures/environment/end_sky.png");
     private static final ResourceLocation texPortalLayers = new ResourceLocation("textures/entity/end_portal.png");
-    private FloatBuffer buffer = GLAllocation.createDirectFloatBuffer(16);
+    private final FloatBuffer buffer = GLAllocation.createDirectFloatBuffer(16);
 
     @Override
     public void renderTileEntityAt(TileEntityEndPortal tile, double x, double y, double z, float partialTickTime) {
