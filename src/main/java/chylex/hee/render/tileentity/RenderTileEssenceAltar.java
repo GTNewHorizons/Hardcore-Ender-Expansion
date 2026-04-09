@@ -27,18 +27,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderTileEssenceAltar extends TileEntitySpecialRenderer {
 
-    private static RenderBlocks blockRenderer;
-
-    private RenderManager renderManager;
-
+    private RenderBlocks blockRenderer;
     private TileEntityEssenceAltar altar;
     private long lastRotationUpdateTime;
     private short glyphRot, requiredItemRot;
     private double viewRot;
-
-    public RenderTileEssenceAltar() {
-        renderManager = RenderManager.instance;
-    }
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime) {
@@ -59,8 +52,8 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer {
         altar = (TileEntityEssenceAltar) tile;
         viewRot = 180D + Math.toDegrees(
                 Math.atan2(
-                        renderManager.viewerPosX - altar.xCoord - 0.5D,
-                        renderManager.viewerPosZ - altar.zCoord - 0.5D));
+                        RenderManager.instance.viewerPosX - altar.xCoord - 0.5D,
+                        RenderManager.instance.viewerPosZ - altar.zCoord - 0.5D));
 
         long time = altar.getWorldObj().getTotalWorldTime();
         if (time != lastRotationUpdateTime) {
@@ -131,7 +124,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer {
                     GL11.glRotatef(++requiredItemRot >= 360 ? requiredItemRot -= 360 : requiredItemRot, 0F, 1F, 0F);
                     GL11.glTranslatef(-0.5F, -0.5F, 0F);
 
-                    renderManager.renderEngine.bindTexture(
+                    RenderManager.instance.renderEngine.bindTexture(
                             is.getItemSpriteNumber() == 0 ? TextureMap.locationBlocksTexture
                                     : TextureMap.locationItemsTexture);
                     IIcon icon = is.getItem().getIconFromDamage(is.getItemDamage());
@@ -201,7 +194,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer {
     }
 
     private void renderItem(Item item, int damage, float red, float green, float blue) {
-        renderManager.renderEngine.bindTexture(
+        RenderManager.instance.renderEngine.bindTexture(
                 item.getSpriteNumber() == 0 ? TextureMap.locationBlocksTexture : TextureMap.locationItemsTexture);
         GL11.glColor4f(red, green, blue, 1F);
         IIcon icon = item.getIconFromDamage(damage);

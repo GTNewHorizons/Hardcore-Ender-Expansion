@@ -21,7 +21,7 @@ public class RenderTileVoidChest extends TileEntitySpecialRenderer {
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime) {
-        int meta = tile.hasWorldObj() ? meta = tile.getBlockMetadata() : 0;
+        final int meta = tile.hasWorldObj() ? tile.getBlockMetadata() : 0;
         TileEntityVoidChest chest = (TileEntityVoidChest) tile;
 
         bindTexture(texture);
