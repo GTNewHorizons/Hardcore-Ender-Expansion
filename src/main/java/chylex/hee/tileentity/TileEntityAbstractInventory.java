@@ -105,7 +105,9 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
-        return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && player
+                .getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D)
+                <= 64.0D;
     }
 
     @Override
