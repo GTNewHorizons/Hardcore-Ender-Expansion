@@ -55,7 +55,17 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock {
 
             if (field_145812_b > 5 && tmpPos.getBlock(worldObj) != Blocks.piston_extension
                     && worldObj.getEntitiesWithinAABB(EntityBossDragon.class, boundingBox.expand(1, 1, 1)).isEmpty()) {
-                if (tmpPos.set(this).setBlock(worldObj, func_145805_f())) setDead();
+                tmpPos.set(this);
+                Block atPos = tmpPos.getBlock(worldObj);
+                // Only overwrite air/replaceable blocks, like vanilla EntityFallingBlock does.
+                // Otherwise drop as item so we don't destroy real blocks (e.g. tile entities) standing there.
+                if (atPos.getMaterial() == Material.air
+                        || atPos.isReplaceable(worldObj, tmpPos.x, tmpPos.y, tmpPos.z)) {
+                    if (tmpPos.setBlock(worldObj, func_145805_f())) setDead();
+                } else if (!worldObj.isRemote) {
+                    dropItem(Item.getItemFromBlock(Blocks.obsidian), 1);
+                    setDead();
+                }
             }
         } else if (!worldObj.isRemote
                 && ((field_145812_b > 100 && (tmpPos.y < 1 || tmpPos.y > 256)) || field_145812_b > 600)) {
