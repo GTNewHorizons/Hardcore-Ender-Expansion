@@ -36,11 +36,13 @@ public final class MusicManager {
         if (mcMusicTicker != null) {
             Class<? extends MusicTicker> tickerClass = mcMusicTicker.getClass();
 
+            // Wrap the existing ticker instead of discarding it, so vanilla music (and any mixins on
+            // MusicTicker.update) still runs when removeVanillaDelay is off.
+            ReflectionUtils.setFieldValue(mc, "mcMusicTicker", new CustomMusicTicker(mc, mcMusicTicker));
+
             if (tickerClass == MusicTicker.class) {
-                ReflectionUtils.setFieldValue(mc, "mcMusicTicker", new CustomMusicTicker(mc, null));
-                Log.info("Successfully replaced music system.");
+                Log.info("Successfully wrapped the vanilla music system.");
             } else {
-                ReflectionUtils.setFieldValue(mc, "mcMusicTicker", new CustomMusicTicker(mc, mcMusicTicker));
                 Log.info("Successfully wrapped a music system replaced by another mod: $0", tickerClass.getName());
             }
 
