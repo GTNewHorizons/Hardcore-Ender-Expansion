@@ -30,6 +30,8 @@ import chylex.hee.system.util.BlockPosM;
 
 public class BlockDragonEggCustom extends BlockDragonEgg {
 
+    public static boolean allowVanillaDragonEggPickup = false;
+
     public BlockDragonEggCustom() {
         setBlockUnbreakable().setResistance(2000F).setStepSound(Block.soundTypeStone).setLightLevel(0.125F)
                 .setBlockName("dragonEgg").setBlockTextureName("dragon_egg");
@@ -37,7 +39,9 @@ public class BlockDragonEggCustom extends BlockDragonEgg {
 
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
-        fallIfPossible(world, x, y, z);
+        // Use the regular logic when the vanilla pickup is enabled.
+        if (allowVanillaDragonEggPickup) super.updateTick(world, x, y, z, rand);
+        else fallIfPossible(world, x, y, z);
     }
 
     @Override
