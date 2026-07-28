@@ -30,6 +30,9 @@ import chylex.hee.system.util.BlockPosM;
 
 public class BlockDragonEggCustom extends BlockDragonEgg {
 
+    /** When true, keep HEE special pickup (shift+sword). When false, use vanilla-like interaction. */
+    public static boolean enableSpecialDragonEggPickup = false;
+
     public BlockDragonEggCustom() {
         setBlockUnbreakable().setResistance(2000F).setStepSound(Block.soundTypeStone).setLightLevel(0.125F)
                 .setBlockName("dragonEgg").setBlockTextureName("dragon_egg");
@@ -75,6 +78,11 @@ public class BlockDragonEggCustom extends BlockDragonEgg {
 
     @Override
     public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
+        if (!enableSpecialDragonEggPickup) {
+            super.onBlockClicked(world, x, y, z, player);
+            return;
+        }
+
         if (player != null && player.isSneaking()
                 && player.getHeldItem() != null
                 && player.getHeldItem().getItemUseAction() == EnumAction.block) {
@@ -86,27 +94,49 @@ public class BlockDragonEggCustom extends BlockDragonEgg {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
             float hitY, float hitZ) {
+        if (!enableSpecialDragonEggPickup) {
+            return super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
+        }
+
         teleportNearby(world, x, y, z);
         return true;
     }
 
     @Override
     public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {
+        if (!enableSpecialDragonEggPickup) {
+            super.dropBlockAsItemWithChance(world, x, y, z, meta, chance, fortune);
+            return;
+        }
+
         teleportNearby(world, x, y, z);
     }
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+        if (!enableSpecialDragonEggPickup) {
+            super.breakBlock(world, x, y, z, block, meta);
+            return;
+        }
+
         teleportNearby(world, x, y, z);
     }
 
     @Override
     public Item getItemDropped(int meta, Random rand, int fortune) {
+        if (!enableSpecialDragonEggPickup) {
+            return super.getItemDropped(meta, rand, fortune);
+        }
+
         return null;
     }
 
     @Override
     public int quantityDropped(Random rand) {
+        if (!enableSpecialDragonEggPickup) {
+            return super.quantityDropped(rand);
+        }
+
         return 0;
     }
 

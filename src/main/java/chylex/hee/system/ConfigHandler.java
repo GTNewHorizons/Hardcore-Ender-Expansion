@@ -9,6 +9,7 @@ import net.minecraftforge.common.config.Property;
 
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.HeeIMC;
+import chylex.hee.block.BlockDragonEggCustom;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
@@ -146,6 +147,10 @@ public final class ConfigHandler {
                 "enableTempleCaller",
                 true,
                 "Mechanic that allows players to reset the End, may not be desirable on servers.");
+        BlockDragonEggCustom.enableSpecialDragonEggPickup = getBoolValue(
+                "enableSpecialDragonEggPickup",
+                false,
+                "When enabled, dragon eggs teleport on interaction and can only be picked up by sneaking with a sword. When disabled, vanilla-like behavior is restored so torch/falling sand pickup works.");
         Log.forceDebugEnabled = getBool(
                 "logDebuggingInfo",
                 false,

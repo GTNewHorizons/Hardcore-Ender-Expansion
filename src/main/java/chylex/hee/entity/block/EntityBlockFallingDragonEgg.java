@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import chylex.hee.block.BlockDragonEggCustom;
@@ -68,9 +69,13 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock {
     }
 
     private void die() {
-        if (!worldObj.isRemote && !BlockDragonEggCustom
-                .teleportNearby(worldObj, MathUtil.floor(posX), MathUtil.floor(posY), MathUtil.floor(posZ))) {
-            BlockDragonEggCustom.teleportEntityToPortal(this);
+        if (!worldObj.isRemote) {
+            if (!BlockDragonEggCustom.enableSpecialDragonEggPickup) {
+                entityDropItem(new ItemStack(Blocks.dragon_egg), 0.0F);
+            } else if (!BlockDragonEggCustom
+                    .teleportNearby(worldObj, MathUtil.floor(posX), MathUtil.floor(posY), MathUtil.floor(posZ))) {
+                BlockDragonEggCustom.teleportEntityToPortal(this);
+            }
         }
 
         setDead();
