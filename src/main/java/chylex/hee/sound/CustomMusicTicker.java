@@ -133,7 +133,14 @@ public final class CustomMusicTicker extends MusicTicker {
             playingEndMusicType = type;
             waitAfterNewSong = 100;
 
-            if (endMusicTimer < HEE_END.func_148634_b()) endMusicTimer = randomTimer(HEE_END);
+            // music timer set to 0 if it is boss music to avoid a long wait.
+            if (playingEndMusicType.isBossMusic) {
+                endMusicTimer = 0;
+            } else {
+                if (endMusicTimer < HEE_END.func_148634_b()) endMusicTimer = randomTimer(HEE_END);
+                // tbh idk what this is meant to acomplish... I'll leave it here. I will put it here in the else branch
+                // incase removing it causes any issues...
+            }
         }
 
         prevEndMusicType = type;
