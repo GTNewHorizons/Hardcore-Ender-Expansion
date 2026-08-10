@@ -40,7 +40,7 @@ public class ItemCharm extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List list) {
-        for (CharmType charmType : CharmType.values()) {
+        for (CharmType charmType : CharmType.VALUES) {
             for (CharmRecipe charmRecipe : charmType.recipes) list.add(new ItemStack(item, 1, charmRecipe.id));
         }
     }

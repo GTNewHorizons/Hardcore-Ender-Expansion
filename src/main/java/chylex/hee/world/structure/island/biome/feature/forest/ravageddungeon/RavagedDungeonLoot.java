@@ -139,7 +139,7 @@ public final class RavagedDungeonLoot {
                         @Override
                         public ItemStack processItem(ItemStack is, Random rand) {
                             if (is.getItem() == ItemList.charm) {
-                                CharmType[] types = CharmType.values();
+                                CharmType[] types = CharmType.VALUES;
                                 CharmType type = types[rand.nextInt(types.length)];
                                 is.setItemDamage(type.recipes[rand.nextInt(type.recipes.length)].id);
                             }

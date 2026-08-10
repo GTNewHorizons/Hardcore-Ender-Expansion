@@ -193,9 +193,9 @@ public enum CharmType {
             new String[] { "int,lastresortblocks", "int,lastresortcooldown" });
 
     // last used id: 79
-
+    public static final CharmType[] VALUES = values();
     public static Pair<CharmType, CharmRecipe> getFromDamage(int damage) {
-        for (CharmType type : values()) {
+        for (CharmType type : VALUES) {
             for (CharmRecipe recipe : type.recipes) {
                 if (recipe.id == damage) return Pair.of(type, recipe);
             }
@@ -207,7 +207,7 @@ public enum CharmType {
     public static Pair<CharmType, CharmRecipe> findRecipe(RuneType[] runes) {
         if (runes.length < 3 || runes.length > 5) return null;
 
-        for (CharmType type : values()) {
+        for (CharmType type : VALUES) {
             for (CharmRecipe recipe : type.recipes) {
                 if (recipe.checkRunes(runes)) return Pair.of(type, recipe);
             }
@@ -217,7 +217,7 @@ public enum CharmType {
     }
 
     public static String getTooltip(int damage) {
-        for (CharmType type : values()) {
+        for (CharmType type : VALUES) {
             for (CharmRecipe recipe : type.recipes) {
                 if (recipe.id == damage) {
                     String tooltip = StatCollector.translateToLocal(

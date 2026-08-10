@@ -65,7 +65,7 @@ public final class KnowledgeUtils {
         List<KnowledgeFragment> fragments = new ArrayList<>();
         int a = 0;
 
-        for (CharmType type : CharmType.values()) {
+        for (CharmType type : CharmType.VALUES) {
             for (CharmRecipe recipe : type.recipes) {
                 fragments.add(
                         new KnowledgeFragmentCharm(startID + (a++)).setRecipe(recipe).setPrice(2)
