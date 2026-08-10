@@ -520,6 +520,7 @@ public enum CurseType {
     }
 
     public static final CurseType[] VALUES = values();
+
     public static CurseType getFromDamage(int damage) {
         damage = damage & 0b11111111;
 
