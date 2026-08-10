@@ -95,7 +95,7 @@ public class BlockEssenceAltar extends BlockContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-        for (EssenceType essenceType : EssenceType.values()) list.add(new ItemStack(item, 1, essenceType.id));
+        for (EssenceType essenceType : EssenceType.VALUES) list.add(new ItemStack(item, 1, essenceType.id));
     }
 
     @Override
@@ -110,7 +110,7 @@ public class BlockEssenceAltar extends BlockContainer {
     public void registerBlockIcons(IIconRegister iconRegister) {
         String s = getTextureName() + "_";
 
-        iconTop = new IIcon[EssenceType.values().length];
+        iconTop = new IIcon[EssenceType.VALUES.length];
         iconSide = new IIcon[iconTop.length];
         iconBottom = new IIcon[iconTop.length];
 

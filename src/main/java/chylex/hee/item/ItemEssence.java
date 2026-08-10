@@ -29,7 +29,7 @@ public class ItemEssence extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List list) {
-        for (EssenceType essenceType : EssenceType.values()) {
+        for (EssenceType essenceType : EssenceType.VALUES) {
             if (essenceType == EssenceType.INVALID) continue;
             list.add(new ItemStack(item, 1, essenceType.id - 1));
         }
@@ -62,10 +62,10 @@ public class ItemEssence extends Item {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(IIconRegister iconRegister) {
-        iconArray = new IIcon[EssenceType.values().length - 1];
+        iconArray = new IIcon[EssenceType.VALUES.length - 1];
         int index = -1;
 
-        for (EssenceType essenceType : EssenceType.values()) {
+        for (EssenceType essenceType : EssenceType.VALUES) {
             if (essenceType == EssenceType.INVALID) continue;
             iconArray[++index] = iconRegister.registerIcon("hardcoreenderexpansion:essence_" + essenceType.id);
         }
