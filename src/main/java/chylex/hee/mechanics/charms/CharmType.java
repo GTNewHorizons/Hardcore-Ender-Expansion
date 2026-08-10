@@ -194,6 +194,7 @@ public enum CharmType {
 
     // last used id: 79
     public static final CharmType[] VALUES = values();
+
     public static Pair<CharmType, CharmRecipe> getFromDamage(int damage) {
         for (CharmType type : VALUES) {
             for (CharmRecipe recipe : type.recipes) {
