@@ -159,7 +159,7 @@ public final class RecipeList {
                 ItemList.spectral_tear,
                 ItemList.instability_orb);
 
-        for (CurseType curse : CurseType.values()) {
+        for (CurseType curse : CurseType.VALUES) {
             GameRegistry.addShapedRecipe(
                     new ItemStack(ItemList.curse, 8, curse.damage),
                     "PAP",

@@ -80,7 +80,7 @@ public final class KnowledgeUtils {
         List<KnowledgeFragment> fragments = new ArrayList<>();
         int a = 0;
 
-        for (CurseType type : CurseType.values()) {
+        for (CurseType type : CurseType.VALUES) {
             fragments.add(
                     new KnowledgeFragmentCrafting(startID + (a++))
                             .setRecipe(new ItemStack(ItemList.curse, 8, type.damage)).setPrice(3)
