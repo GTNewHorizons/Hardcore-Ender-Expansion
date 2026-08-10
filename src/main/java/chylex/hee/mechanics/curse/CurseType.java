@@ -519,10 +519,12 @@ public enum CurseType {
                 .setUses(EnumCurseUse.PLAYER, 8, 11).setColor1h(300).setColor2g(50);
     }
 
+    public static final CurseType[] VALUES = values();
+
     public static CurseType getFromDamage(int damage) {
         damage = damage & 0b11111111;
 
-        for (CurseType type : values()) {
+        for (CurseType type : VALUES) {
             if (damage == type.damage) return type;
         }
 

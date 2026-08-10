@@ -18,7 +18,7 @@ public class CharmTests {
     public void testRecipeConflicts() {
         TIntIntHashMap hashes = new TIntIntHashMap(80, 0.75F, -1, -1);
 
-        for (CharmType type : CharmType.values()) {
+        for (CharmType type : CharmType.VALUES) {
             for (CharmRecipe recipe : type.recipes) {
                 Map<RuneType, Byte> data = recipe.getRunes();
                 int hash = 0, prevHash;

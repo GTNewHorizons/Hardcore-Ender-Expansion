@@ -65,7 +65,7 @@ public final class KnowledgeUtils {
         List<KnowledgeFragment> fragments = new ArrayList<>();
         int a = 0;
 
-        for (CharmType type : CharmType.values()) {
+        for (CharmType type : CharmType.VALUES) {
             for (CharmRecipe recipe : type.recipes) {
                 fragments.add(
                         new KnowledgeFragmentCharm(startID + (a++)).setRecipe(recipe).setPrice(2)
@@ -80,7 +80,7 @@ public final class KnowledgeUtils {
         List<KnowledgeFragment> fragments = new ArrayList<>();
         int a = 0;
 
-        for (CurseType type : CurseType.values()) {
+        for (CurseType type : CurseType.VALUES) {
             fragments.add(
                     new KnowledgeFragmentCrafting(startID + (a++))
                             .setRecipe(new ItemStack(ItemList.curse, 8, type.damage)).setPrice(3)

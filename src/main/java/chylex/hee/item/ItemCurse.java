@@ -135,7 +135,7 @@ public class ItemCurse extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List list) {
-        for (CurseType type : CurseType.values()) {
+        for (CurseType type : CurseType.VALUES) {
             list.add(new ItemStack(item, 1, type.damage));
             list.add(new ItemStack(item, 1, type.damage | 0b100000000));
         }

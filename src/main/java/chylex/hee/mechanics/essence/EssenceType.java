@@ -49,6 +49,7 @@ public enum EssenceType {
                     new RuneItem(Items.egg, "mob.chicken.plop") },
             new float[] { 0.1875F, 0.1641F, 0.5273F });
 
+    public static final EssenceType[] VALUES = values();
     public final byte id;
     public final String essenceName;
     public final String essenceNameLowercase;
@@ -73,7 +74,7 @@ public enum EssenceType {
     }
 
     public static EssenceType getById(int id) {
-        for (EssenceType type : values()) {
+        for (EssenceType type : VALUES) {
             if (type.id == id) return type;
         }
         return INVALID;
