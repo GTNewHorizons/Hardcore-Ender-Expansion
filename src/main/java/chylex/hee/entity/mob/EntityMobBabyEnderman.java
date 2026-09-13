@@ -172,8 +172,9 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 
                         ItemStack is = target.inventory.mainInventory[slot];
                         if (is != null) {
-                            setCarriedItemStack(target.inventory.decrStackSize(slot, 1));
-                            target.openContainer.detectAndSendChanges();
+                            ItemStack carrying = target.inventory.decrStackSize(slot, 1);
+                            carrying.stackSize = 1;
+                            setCarriedItemStack(carrying);
 
                             break;
                         }
