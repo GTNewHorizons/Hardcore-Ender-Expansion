@@ -44,8 +44,6 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.IItemSelector;
@@ -174,14 +172,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 
                         ItemStack is = target.inventory.mainInventory[slot];
                         if (is != null) {
-                            ItemStack carrying = is.copy();
-                            carrying.stackSize = 1;
-                            setCarriedItemStack(carrying);
-
-                            if (--target.inventory.mainInventory[slot].stackSize == 0) {
-                                target.inventory.mainInventory[slot] = null;
-                                PacketPipeline.sendToPlayer(target, new C00ClearInventorySlot(slot));
-                            }
+                            setCarriedItemStack(target.inventory.decrStackSize(slot, 1));
+                            target.openContainer.detectAndSendChanges();
 
                             break;
                         }
