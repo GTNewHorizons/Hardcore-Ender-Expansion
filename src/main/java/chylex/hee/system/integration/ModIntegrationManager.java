@@ -15,6 +15,7 @@ public final class ModIntegrationManager {
 
     public static boolean baublesLoaded;
     public static boolean baublesExpandedLoaded;
+    public static boolean angelicaLoaded;
 
     public static final Set<String> blacklistedMods = new HashSet<>();
 
@@ -22,6 +23,7 @@ public final class ModIntegrationManager {
         Stopwatch.time("ModIntegrationManager - preInit");
         baublesLoaded = Loader.isModLoaded("Baubles");
         baublesExpandedLoaded = Loader.isModLoaded("Baubles|Expanded");
+        angelicaLoaded = Loader.isModLoaded("angelica");
 
         Class[] handlerClasses = new Class[] { BaublesExpandedIntegration.class };
 

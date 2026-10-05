@@ -17,18 +17,24 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import com.gtnewhorizons.angelica.api.EyePassRenderer;
+
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.model.ModelEnderDragon;
 import chylex.hee.sound.EndMusicType;
+import chylex.hee.system.integration.AngelicaCompat;
+import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderBossDragon extends RenderLiving {
+@Optional.Interface(iface = "com.gtnewhorizons.angelica.api.EyePassRenderer", modid = "angelica")
+public class RenderBossDragon extends RenderLiving implements EyePassRenderer {
 
     private static final ResourceLocation texDragon = new ResourceLocation("textures/entity/enderdragon/dragon.png");
     private static final ResourceLocation texDragonEyes = new ResourceLocation(
@@ -138,7 +144,12 @@ public class RenderBossDragon extends RenderLiving {
                 tessellator.addVertexWithUV(f11, f12, distXYZ, f13, animTime);
             }
 
-            tessellator.draw();
+            if (ModIntegrationManager.angelicaLoaded) AngelicaCompat.beginCrystalBeam();
+            try {
+                tessellator.draw();
+            } finally {
+                if (ModIntegrationManager.angelicaLoaded) AngelicaCompat.endCrystalBeam();
+            }
             GL11.glEnable(GL11.GL_CULL_FACE);
             GL11.glShadeModel(GL11.GL_FLAT);
             RenderHelper.enableStandardItemLighting();
@@ -150,54 +161,76 @@ public class RenderBossDragon extends RenderLiving {
         super.renderEquippedItems(dragon, partialTickTime);
 
         if (dragon.deathTicks > 0) {
-            Tessellator tessellator = Tessellator.instance;
-            RenderHelper.disableStandardItemLighting();
-            float animPerc = (dragon.deathTicks + partialTickTime) * 0.005F;
-            float fade = animPerc > 0.8F ? (animPerc - 0.8F) * 5F : 0F;
-
-            Random rand = ModClientProxy.seedableRand;
-            rand.setSeed(432L);
-
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glShadeModel(GL11.GL_SMOOTH);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
-            GL11.glEnable(GL11.GL_CULL_FACE);
-            GL11.glDepthMask(false);
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0F, -1F, -2F);
-
-            for (int beam = 0; beam < (animPerc + animPerc * animPerc) / 2F * 60F; ++beam) {
-                GL11.glRotatef(rand.nextFloat() * 360F, 1F, 0F, 0F);
-                GL11.glRotatef(rand.nextFloat() * 360F, 0F, 1F, 0F);
-                GL11.glRotatef(rand.nextFloat() * 360F, 0F, 0F, 1F);
-                GL11.glRotatef(rand.nextFloat() * 360F, 1F, 0F, 0F);
-                GL11.glRotatef(rand.nextFloat() * 360F, 0F, 1F, 0F);
-                GL11.glRotatef(rand.nextFloat() * 360F + animPerc * 90F, 0F, 0F, 1F);
-                tessellator.startDrawing(6);
-                float yRot = rand.nextFloat() * 20F + 5F + fade * 10F;
-                float xzRot = rand.nextFloat() * 2F + 1F + fade * 2F;
-                tessellator.setColorRGBA_I(16777215, (int) (255F * (1F - fade)));
-                tessellator.addVertex(0D, 0D, 0D);
-                tessellator.setColorRGBA_I(16711935, 0);
-                tessellator.addVertex(-0.866D * xzRot, yRot, -0.5F * xzRot);
-                tessellator.addVertex(0.866D * xzRot, yRot, -0.5F * xzRot);
-                tessellator.addVertex(0D, yRot, xzRot);
-                tessellator.addVertex(-0.866D * xzRot, yRot, -0.5F * xzRot);
-                tessellator.draw();
-            }
-
-            GL11.glPopMatrix();
-            GL11.glDepthMask(true);
-            GL11.glDisable(GL11.GL_CULL_FACE);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glShadeModel(GL11.GL_FLAT);
-            GL11.glColor4f(1F, 1F, 1F, 1F);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glEnable(GL11.GL_ALPHA_TEST);
-            RenderHelper.enableStandardItemLighting();
+            if (ModIntegrationManager.angelicaLoaded) renderDeathRaysForShaders(dragon, partialTickTime);
+            else renderDeathRays(dragon, partialTickTime, false);
         }
+    }
+
+    /**
+     * Shader packs treat the rays like lightning and expect them drawn the way modern Minecraft does: a depth-only pass
+     * first, then the color pass.
+     */
+    private void renderDeathRaysForShaders(EntityBossDragon dragon, float partialTickTime) {
+        AngelicaCompat.beginDeathRays();
+        try {
+            GL11.glColorMask(false, false, false, false);
+            renderDeathRays(dragon, partialTickTime, true);
+            GL11.glColorMask(true, true, true, true);
+            renderDeathRays(dragon, partialTickTime, false);
+        } finally {
+            GL11.glColorMask(true, true, true, true);
+            AngelicaCompat.endDeathRays();
+        }
+    }
+
+    private void renderDeathRays(EntityBossDragon dragon, float partialTickTime, boolean writeDepth) {
+        Tessellator tessellator = Tessellator.instance;
+        RenderHelper.disableStandardItemLighting();
+        float animPerc = (dragon.deathTicks + partialTickTime) * 0.005F;
+        float fade = animPerc > 0.8F ? (animPerc - 0.8F) * 5F : 0F;
+
+        Random rand = ModClientProxy.seedableRand;
+        rand.setSeed(432L);
+
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glDepthMask(writeDepth);
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0F, -1F, -2F);
+
+        for (int beam = 0; beam < (animPerc + animPerc * animPerc) / 2F * 60F; ++beam) {
+            GL11.glRotatef(rand.nextFloat() * 360F, 1F, 0F, 0F);
+            GL11.glRotatef(rand.nextFloat() * 360F, 0F, 1F, 0F);
+            GL11.glRotatef(rand.nextFloat() * 360F, 0F, 0F, 1F);
+            GL11.glRotatef(rand.nextFloat() * 360F, 1F, 0F, 0F);
+            GL11.glRotatef(rand.nextFloat() * 360F, 0F, 1F, 0F);
+            GL11.glRotatef(rand.nextFloat() * 360F + animPerc * 90F, 0F, 0F, 1F);
+            tessellator.startDrawing(6);
+            float yRot = rand.nextFloat() * 20F + 5F + fade * 10F;
+            float xzRot = rand.nextFloat() * 2F + 1F + fade * 2F;
+            tessellator.setColorRGBA_I(16777215, (int) (255F * (1F - fade)));
+            tessellator.addVertex(0D, 0D, 0D);
+            tessellator.setColorRGBA_I(16711935, 0);
+            tessellator.addVertex(-0.866D * xzRot, yRot, -0.5F * xzRot);
+            tessellator.addVertex(0.866D * xzRot, yRot, -0.5F * xzRot);
+            tessellator.addVertex(0D, yRot, xzRot);
+            tessellator.addVertex(-0.866D * xzRot, yRot, -0.5F * xzRot);
+            tessellator.draw();
+        }
+
+        GL11.glPopMatrix();
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glShadeModel(GL11.GL_FLAT);
+        GL11.glColor4f(1F, 1F, 1F, 1F);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        RenderHelper.enableStandardItemLighting();
     }
 
     protected int renderGlow(EntityBossDragon dragon, int pass, float partialTickTime) {
