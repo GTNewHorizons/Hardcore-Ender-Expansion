@@ -118,6 +118,8 @@ import chylex.hee.sound.MusicManager;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.commands.HeeClientCommand;
+import chylex.hee.system.integration.AngelicaCompat;
+import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
@@ -180,19 +182,28 @@ public class ModClientProxy extends ModCommonProxy {
         MinecraftForgeClient
                 .registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
 
-        RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon());
+        boolean angelica = ModIntegrationManager.angelicaLoaded;
+
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityBossDragon.class,
+                angelica ? AngelicaCompat.createDragonRenderer() : new RenderBossDragon());
         RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon());
 
         RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossEnderEye.class, new RenderMiniBossEnderEye());
         RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossFireFiend.class, new RenderMiniBossFireFiend());
 
         RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderman.class, new RenderMobEnderman());
-        RenderingRegistry.registerEntityRenderingHandler(EntityMobAngryEnderman.class, new RenderMobAngryEnderman());
-        RenderingRegistry.registerEntityRenderingHandler(EntityMobBabyEnderman.class, new RenderMobBabyEnderman());
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityMobAngryEnderman.class,
+                angelica ? AngelicaCompat.createAngryEndermanRenderer() : new RenderMobAngryEnderman());
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityMobBabyEnderman.class,
+                angelica ? AngelicaCompat.createBabyEndermanRenderer() : new RenderMobBabyEnderman());
         RenderingRegistry
                 .registerEntityRenderingHandler(EntityMobParalyzedEnderman.class, new RenderMobParalyzedEnderman());
-        RenderingRegistry
-                .registerEntityRenderingHandler(EntityMobHomelandEnderman.class, new RenderMobHomelandEnderman());
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityMobHomelandEnderman.class,
+                angelica ? AngelicaCompat.createHomelandEndermanRenderer() : new RenderMobHomelandEnderman());
         RenderingRegistry.registerEntityRenderingHandler(
                 EntityMobEnderGuardian.class,
                 new RenderTexturedMob(new ModelEnderGuardian(), 0.3F, "ender_guardian.png"));

@@ -17,8 +17,6 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.gtnewhorizons.angelica.api.EyePassRenderer;
-
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModClientProxy;
@@ -28,13 +26,11 @@ import chylex.hee.sound.EndMusicType;
 import chylex.hee.system.integration.AngelicaCompat;
 import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@Optional.Interface(iface = "com.gtnewhorizons.angelica.api.EyePassRenderer", modid = "angelica")
-public class RenderBossDragon extends RenderLiving implements EyePassRenderer {
+public class RenderBossDragon extends RenderLiving {
 
     private static final ResourceLocation texDragon = new ResourceLocation("textures/entity/enderdragon/dragon.png");
     private static final ResourceLocation texDragonEyes = new ResourceLocation(
