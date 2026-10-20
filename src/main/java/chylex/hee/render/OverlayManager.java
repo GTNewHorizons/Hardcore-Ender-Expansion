@@ -33,6 +33,7 @@ import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,6 +41,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class OverlayManager {
 
+    private static final boolean DASHBOARD = Loader.isModLoaded("dashboard");
     private static OverlayManager instance;
     private static final ResourceLocation texGoo = new ResourceLocation(
             "hardcoreenderexpansion:textures/overlay/endergoo.png");
@@ -55,7 +57,10 @@ public class OverlayManager {
     }
 
     public static void register() {
-        if (instance == null) MinecraftForge.EVENT_BUS.register(instance = new OverlayManager());
+        if (instance == null) {
+            MinecraftForge.EVENT_BUS.register(instance = new OverlayManager());
+            if (DASHBOARD) DashboardHud.register();
+        }
     }
 
     private OverlayManager() {}
@@ -165,14 +170,13 @@ public class OverlayManager {
 
         if (e.type == ElementType.HOTBAR) {
             if (!notifications.isEmpty()) {
+                if (DASHBOARD) DashboardHud.beginNotifications();
                 FontRenderer font = mc.fontRenderer;
 
                 boolean prevUnicode = font.getUnicodeFlag();
                 font.setUnicodeFlag(true);
 
-                int scale = e.resolution.getScaleFactor();
-                double fontScale = scale == 1 ? 2D : scale == 2 ? 1D : scale == 3 ? 0.677D : 0.5D,
-                        fontScale2 = 1D / fontScale;
+                double fontScale = getNoteScale(e.resolution.getScaleFactor()), fontScale2 = 1D / fontScale;
 
                 GL11.glPushMatrix();
                 GL11.glScaled(fontScale, fontScale, fontScale);
