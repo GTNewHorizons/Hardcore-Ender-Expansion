@@ -204,48 +204,59 @@ public class OverlayManager {
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
                 GL11.glDisable(GL11.GL_BLEND);
                 GL11.glPopMatrix();
+                if (DASHBOARD) DashboardHud.end();
             }
 
             if (clusterLookedAt != null) {
-                FontRenderer font = mc.fontRenderer;
-                int x = e.resolution.getScaledWidth() >> 1;
-                int y = e.resolution.getScaledHeight() >> 1;
-
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glColor4f(1F, 1F, 1F, 1F);
-
-                drawStringCentered(font, I18n.format("energy.overlay.title"), x, y - 40, 255, 255, 255);
-                drawStringCentered(
-                        font,
-                        I18n.format("energy.overlay.holding")
-                                .replace("$", DragonUtil.formatTwoPlaces.format(clusterLookedAt.data.getEnergyLevel())),
-                        x,
-                        y - 30,
-                        220,
-                        220,
-                        220);
-                drawStringCentered(
-                        font,
-                        I18n.format("energy.overlay.regen").replace(
-                                "$",
-                                DragonUtil.formatTwoPlaces.format(clusterLookedAt.data.getMaxEnergyLevel())),
-                        x,
-                        y - 20,
-                        220,
-                        220,
-                        220);
-
-                EnergyClusterHealth health = clusterLookedAt.data.getHealthStatus();
-                drawStringCentered(font, I18n.format(health.translationText), x, y - 10, health.color);
-
-                GL11.glDisable(GL11.GL_BLEND);
+                if (DASHBOARD) DashboardHud.beginEnergyCluster();
+                drawClusterInfo(
+                        e.resolution.getScaledWidth() >> 1,
+                        e.resolution.getScaledHeight() >> 1,
+                        clusterLookedAt.data.getEnergyLevel(),
+                        clusterLookedAt.data.getMaxEnergyLevel(),
+                        clusterLookedAt.data.getHealthStatus());
                 clusterLookedAt = null;
+                if (DASHBOARD) DashboardHud.end();
             }
         }
     }
 
-    private void drawStringCentered(FontRenderer font, String text, int x, int y, int red, int green, int blue) {
+    /** The font scale of the notes for a GUI scale, so the small font stays sharp. */
+    static double getNoteScale(int guiScale) {
+        return guiScale == 1 ? 2D : guiScale == 2 ? 1D : guiScale == 3 ? 0.677D : 0.5D;
+    }
+
+    /** Centered around {@code x}, {@code y}, the screen middle. */
+    static void drawClusterInfo(int x, int y, float energy, float maxEnergy, EnergyClusterHealth health) {
+        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(1F, 1F, 1F, 1F);
+
+        drawStringCentered(font, I18n.format("energy.overlay.title"), x, y - 40, 255, 255, 255);
+        drawStringCentered(
+                font,
+                I18n.format("energy.overlay.holding").replace("$", DragonUtil.formatTwoPlaces.format(energy)),
+                x,
+                y - 30,
+                220,
+                220,
+                220);
+        drawStringCentered(
+                font,
+                I18n.format("energy.overlay.regen").replace("$", DragonUtil.formatTwoPlaces.format(maxEnergy)),
+                x,
+                y - 20,
+                220,
+                220,
+                220);
+        drawStringCentered(font, I18n.format(health.translationText), x, y - 10, health.color);
+
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    private static void drawStringCentered(FontRenderer font, String text, int x, int y, int red, int green, int blue) {
         font.drawStringWithShadow(
                 text,
                 x - (font.getStringWidth(text) >> 1),
@@ -253,7 +264,7 @@ public class OverlayManager {
                 220 << 24 | red << 16 | green << 8 | blue);
     }
 
-    private void drawStringCentered(FontRenderer font, String text, int x, int y, int color) {
+    private static void drawStringCentered(FontRenderer font, String text, int x, int y, int color) {
         font.drawStringWithShadow(text, x - (font.getStringWidth(text) >> 1), y - (font.FONT_HEIGHT >> 1), color);
     }
 
