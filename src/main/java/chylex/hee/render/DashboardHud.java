@@ -8,7 +8,6 @@ import org.lwjgl.opengl.GL11;
 import com.gtnewhorizons.dashboard.api.HudBounds;
 import com.gtnewhorizons.dashboard.api.HudElement;
 import com.gtnewhorizons.dashboard.api.HudRegistry;
-import com.gtnewhorizons.dashboard.api.HudShift;
 
 import chylex.hee.mechanics.energy.EnergyClusterHealth;
 import cpw.mods.fml.relauncher.Side;
@@ -16,8 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Lets players move, resize and hide the notes and the energy cluster info in Dashboard's editor. The only class using
- * Dashboard, so only call it while Dashboard is loaded. Both are drawn even when hidden, just invisibly, so the notes
- * keep fading and the cluster info keeps being cleared.
+ * Dashboard, so only call it while Dashboard is loaded.
  */
 @SideOnly(Side.CLIENT)
 final class DashboardHud {
@@ -48,8 +46,6 @@ final class DashboardHud {
                     CLUSTER_WIDTH,
                     CLUSTER_HEIGHT));
 
-    private static final HudShift SHIFT = new HudShift();
-
     private DashboardHud() {}
 
     static void register() {
@@ -69,16 +65,18 @@ final class DashboardHud {
         HudRegistry.register(ENERGY_CLUSTER);
     }
 
-    static void beginNotifications() {
-        SHIFT.beginOrHide(NOTIFICATIONS);
+    /** False means the player hid the notes, so skip drawing them and do not call {@link #end()}. */
+    static boolean beginNotifications() {
+        return HudRegistry.beginRender(NOTIFICATIONS);
     }
 
-    static void beginEnergyCluster() {
-        SHIFT.beginOrHide(ENERGY_CLUSTER);
+    /** False means the player hid the cluster info, so skip drawing it and do not call {@link #end()}. */
+    static boolean beginEnergyCluster() {
+        return HudRegistry.beginRender(ENERGY_CLUSTER);
     }
 
     static void end() {
-        SHIFT.end();
+        HudRegistry.endRender();
     }
 
     private static double getNoteScale() {

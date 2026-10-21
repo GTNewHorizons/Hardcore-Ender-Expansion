@@ -170,53 +170,58 @@ public class OverlayManager {
 
         if (e.type == ElementType.HOTBAR) {
             if (!notifications.isEmpty()) {
-                if (DASHBOARD) DashboardHud.beginNotifications();
-                FontRenderer font = mc.fontRenderer;
+                if (DASHBOARD && !DashboardHud.beginNotifications()) {
+                    // Hidden, so only keep the notes floating up and fading
+                    notifications.removeIf(Notification::update);
+                } else {
+                    FontRenderer font = mc.fontRenderer;
 
-                boolean prevUnicode = font.getUnicodeFlag();
-                font.setUnicodeFlag(true);
+                    boolean prevUnicode = font.getUnicodeFlag();
+                    font.setUnicodeFlag(true);
 
-                double fontScale = getNoteScale(e.resolution.getScaleFactor()), fontScale2 = 1D / fontScale;
+                    double fontScale = getNoteScale(e.resolution.getScaleFactor()), fontScale2 = 1D / fontScale;
 
-                GL11.glPushMatrix();
-                GL11.glScaled(fontScale, fontScale, fontScale);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glColor4f(1F, 1F, 1F, 1F);
-                GL11.glDisable(GL11.GL_DEPTH_TEST);
+                    GL11.glPushMatrix();
+                    GL11.glScaled(fontScale, fontScale, fontScale);
+                    GL11.glEnable(GL11.GL_BLEND);
+                    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                    GL11.glColor4f(1F, 1F, 1F, 1F);
+                    GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-                int scaledW = (int) (e.resolution.getScaledWidth() * fontScale2),
-                        scaledH = (int) (e.resolution.getScaledHeight() * fontScale2);
+                    int scaledW = (int) (e.resolution.getScaledWidth() * fontScale2),
+                            scaledH = (int) (e.resolution.getScaledHeight() * fontScale2);
 
-                for (Iterator<Notification> iter = notifications.iterator(); iter.hasNext();) {
-                    Notification n = iter.next();
+                    for (Iterator<Notification> iter = notifications.iterator(); iter.hasNext();) {
+                        Notification n = iter.next();
 
-                    int w = font.getStringWidth(n.text);
-                    font.drawStringWithShadow(
-                            n.text,
-                            scaledW - w - 3,
-                            scaledH - 10 - n.yy,
-                            ((int) Math.max(4, Math.floor(255F * n.alpha))) << 24 | 255 << 16 | 255 << 8 | 255);
-                    if (n.update()) iter.remove();
+                        int w = font.getStringWidth(n.text);
+                        font.drawStringWithShadow(
+                                n.text,
+                                scaledW - w - 3,
+                                scaledH - 10 - n.yy,
+                                ((int) Math.max(4, Math.floor(255F * n.alpha))) << 24 | 255 << 16 | 255 << 8 | 255);
+                        if (n.update()) iter.remove();
+                    }
+
+                    font.setUnicodeFlag(prevUnicode);
+                    GL11.glEnable(GL11.GL_DEPTH_TEST);
+                    GL11.glDisable(GL11.GL_BLEND);
+                    GL11.glPopMatrix();
+                    if (DASHBOARD) DashboardHud.end();
                 }
-
-                font.setUnicodeFlag(prevUnicode);
-                GL11.glEnable(GL11.GL_DEPTH_TEST);
-                GL11.glDisable(GL11.GL_BLEND);
-                GL11.glPopMatrix();
-                if (DASHBOARD) DashboardHud.end();
             }
 
             if (clusterLookedAt != null) {
-                if (DASHBOARD) DashboardHud.beginEnergyCluster();
-                drawClusterInfo(
-                        e.resolution.getScaledWidth() >> 1,
-                        e.resolution.getScaledHeight() >> 1,
-                        clusterLookedAt.data.getEnergyLevel(),
-                        clusterLookedAt.data.getMaxEnergyLevel(),
-                        clusterLookedAt.data.getHealthStatus());
+                if (!DASHBOARD || DashboardHud.beginEnergyCluster()) {
+                    drawClusterInfo(
+                            e.resolution.getScaledWidth() >> 1,
+                            e.resolution.getScaledHeight() >> 1,
+                            clusterLookedAt.data.getEnergyLevel(),
+                            clusterLookedAt.data.getMaxEnergyLevel(),
+                            clusterLookedAt.data.getHealthStatus());
+                    if (DASHBOARD) DashboardHud.end();
+                }
                 clusterLookedAt = null;
-                if (DASHBOARD) DashboardHud.end();
             }
         }
     }
