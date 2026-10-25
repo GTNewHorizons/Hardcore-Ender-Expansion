@@ -77,7 +77,8 @@ public final class WorldDataHandler {
 
         String id = getWorldIdentifier(e.world);
 
-        if (!worldIdentifier.equals(id)) {
+        // The save directory may have been deleted without changing the world identifier.
+        if (!worldIdentifier.equals(id) || worldSaveDir == null || !worldSaveDir.exists()) {
             Log.debug("Clearing cache - old $0, new $1", worldIdentifier, id);
             cache.clear();
             worldIdentifier = id;
