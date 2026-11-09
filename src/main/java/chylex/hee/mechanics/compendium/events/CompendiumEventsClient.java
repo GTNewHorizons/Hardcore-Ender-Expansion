@@ -116,7 +116,7 @@ public final class CompendiumEventsClient {
     private CompendiumEventsClient() {
         keyOpenCompendium = new KeyBinding(
                 ModCommonProxy.hardcoreEnderbacon ? "key.openCompendium.bacon" : "key.openCompendium",
-                25,
+                Keyboard.KEY_NONE,
                 "Hardcore Ender Expansion");
         ClientRegistry.registerKeyBinding(keyOpenCompendium);
         Minecraft.getMinecraft().gameSettings.loadOptions();
