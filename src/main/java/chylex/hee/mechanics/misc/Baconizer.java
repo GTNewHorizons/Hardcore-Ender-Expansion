@@ -81,7 +81,14 @@ public final class Baconizer {
     }
 
     public static ResourceLocation mobTexture(Render renderer, ResourceLocation defLoc) {
-        return ModCommonProxy.hardcoreEnderbacon ? renderers.get(renderer.getClass()) : defLoc;
+        if (!ModCommonProxy.hardcoreEnderbacon) return defLoc;
+
+        for (Class<?> cls = renderer.getClass(); cls != null; cls = cls.getSuperclass()) {
+            ResourceLocation tex = renderers.get(cls);
+            if (tex != null) return tex;
+        }
+
+        return null;
     }
 
     public static String soundNormal(String defsound) {
