@@ -47,11 +47,14 @@ import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.ReflectionUtils;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.relauncher.Side;
+import fox.spiteful.avaritia.items.tools.ItemSwordInfinity;
 import gnu.trove.list.array.TFloatArrayList;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
@@ -433,31 +436,72 @@ public final class CharmEvents {
             // SLAUGHTER_IMPACT
             float[] impactRad = getProp(sourcePlayer, "impactrad");
 
-            if (impactRad.length > 0) {
-                float[] impactAmt = getProp(sourcePlayer, "impactamt");
-                float lastDamage = ReflectionUtils.getFieldValue(e.entityLiving, "lastDamage");
+            if (impactRad.length > 0 && !Boolean.TRUE.equals(processingSlaughter.get())) {
+                processingSlaughter.set(true);
+                try {
+                    float[] impactAmt = getProp(sourcePlayer, "impactamt");
+                    float lastDamage = ReflectionUtils.getFieldValue(e.entityLiving, "lastDamage");
+                    ItemStack heldItem = sourcePlayer.getHeldItem();
 
-                for (int a = 0; a < impactRad.length; a++) {
-                    List<EntityLivingBase> entities = e.entity.worldObj.getEntitiesWithinAABB(
-                            EntityLivingBase.class,
-                            e.entity.boundingBox.expand(impactRad[a], impactRad[a], impactRad[a]));
+                    for (int a = 0; a < impactRad.length; a++) {
+                        List<EntityLivingBase> entities = e.entity.worldObj.getEntitiesWithinAABB(
+                                EntityLivingBase.class,
+                                e.entity.boundingBox.expand(impactRad[a], impactRad[a], impactRad[a]));
 
-                    for (EntityLivingBase entity : entities) {
-                        if (entity == sourcePlayer || entity == e.entity
-                                || (entity instanceof EntityPlayer
-                                        && !sourcePlayer.canAttackPlayer((EntityPlayer) entity)))
-                            continue;
-                        if (entity.getDistanceToEntity(e.entity) <= impactRad[a]) {
-                            entity.attackEntityFrom(DamageSource.generic, impactAmt[a] * lastDamage);
-                            PacketPipeline.sendToAllAround(
-                                    e.entity,
-                                    64D,
-                                    new C22EffectLine(FXType.Line.CHARM_SLAUGHTER_IMPACT, entity, e.entity));
+                        for (EntityLivingBase entity : entities) {
+                            if (entity == sourcePlayer || entity == e.entity
+                                    || (entity instanceof EntityPlayer
+                                            && !sourcePlayer.canAttackPlayer((EntityPlayer) entity)))
+                                continue;
+
+                            if (entity.getDistanceToEntity(e.entity) <= impactRad[a]) {
+                                boolean handledAvaritia = false;
+
+                                if (Loader.isModLoaded("avaritia") && heldItem != null) {
+                                    handledAvaritia = tryInvokeAvaritiaHit(heldItem, entity, sourcePlayer);
+                                }
+
+                                if (!handledAvaritia) {
+                                    // Forcing damage type to generic is to respect the original author's choice
+                                    DamageSource slaughterDamageSource = new net.minecraft.util.EntityDamageSource(
+                                            "generic",
+                                            sourcePlayer);
+                                    entity.attackEntityFrom(slaughterDamageSource, impactAmt[a] * lastDamage);
+                                    if (heldItem != null) {
+                                        heldItem.getItem().hitEntity(heldItem, entity, sourcePlayer);
+                                    }
+                                    net.minecraft.enchantment.EnchantmentHelper.func_151384_a(entity, sourcePlayer);
+                                    net.minecraft.enchantment.EnchantmentHelper.func_151385_b(sourcePlayer, entity);
+                                }
+
+                                PacketPipeline.sendToAllAround(
+                                        e.entity,
+                                        64D,
+                                        new C22EffectLine(FXType.Line.CHARM_SLAUGHTER_IMPACT, entity, e.entity));
+                            }
                         }
                     }
+                } finally {
+                    processingSlaughter.remove();
                 }
             }
         }
+    }
+
+    // Prevent infinite loop between entities in the range of a slaughter impact
+    private static final ThreadLocal<Boolean> processingSlaughter = new ThreadLocal<>();
+
+    // Directly invoke methods defined for the Sword of the Cosmos for every entity in the range
+    @Optional.Method(modid = "avaritia")
+    private boolean tryInvokeAvaritiaHit(ItemStack heldItem, EntityLivingBase entity, EntityPlayer sourcePlayer) {
+        if (heldItem.getItem() instanceof ItemSwordInfinity) {
+            if (heldItem.getItem().onLeftClickEntity(heldItem, sourcePlayer, entity)) {
+                return true;
+            }
+            heldItem.getItem().hitEntity(heldItem, entity, sourcePlayer);
+            return true;
+        }
+        return false;
     }
 
     /**
