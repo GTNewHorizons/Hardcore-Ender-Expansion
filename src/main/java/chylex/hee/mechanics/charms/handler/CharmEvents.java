@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,6 +21,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -457,21 +459,19 @@ public final class CharmEvents {
                             if (entity.getDistanceToEntity(e.entity) <= impactRad[a]) {
                                 boolean handledAvaritia = false;
 
-                                if (Loader.isModLoaded("avaritia") && heldItem != null) {
+                                if (Loader.isModLoaded("Avaritia") && heldItem != null) {
                                     handledAvaritia = tryInvokeAvaritiaHit(heldItem, entity, sourcePlayer);
                                 }
 
                                 if (!handledAvaritia) {
                                     // Forcing damage type to generic is to respect the original author's choice
-                                    DamageSource slaughterDamageSource = new net.minecraft.util.EntityDamageSource(
-                                            "generic",
-                                            sourcePlayer);
-                                    entity.attackEntityFrom(slaughterDamageSource, impactAmt[a] * lastDamage);
+                                    DamageSource slaughterDmgSrc = new EntityDamageSource("generic", sourcePlayer);
+                                    entity.attackEntityFrom(slaughterDmgSrc, impactAmt[a] * lastDamage);
                                     if (heldItem != null) {
                                         heldItem.getItem().hitEntity(heldItem, entity, sourcePlayer);
                                     }
-                                    net.minecraft.enchantment.EnchantmentHelper.func_151384_a(entity, sourcePlayer);
-                                    net.minecraft.enchantment.EnchantmentHelper.func_151385_b(sourcePlayer, entity);
+                                    EnchantmentHelper.func_151384_a(entity, sourcePlayer);
+                                    EnchantmentHelper.func_151385_b(sourcePlayer, entity);
                                 }
 
                                 PacketPipeline.sendToAllAround(
@@ -492,7 +492,7 @@ public final class CharmEvents {
     private static final ThreadLocal<Boolean> processingSlaughter = new ThreadLocal<>();
 
     // Directly invoke methods defined for the Sword of the Cosmos for every entity in the range
-    @Optional.Method(modid = "avaritia")
+    @Optional.Method(modid = "Avaritia")
     private boolean tryInvokeAvaritiaHit(ItemStack heldItem, EntityLivingBase entity, EntityPlayer sourcePlayer) {
         if (heldItem.getItem() instanceof ItemSwordInfinity) {
             if (heldItem.getItem().onLeftClickEntity(heldItem, sourcePlayer, entity)) {
