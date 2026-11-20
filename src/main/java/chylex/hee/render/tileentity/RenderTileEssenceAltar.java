@@ -28,7 +28,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderTileEssenceAltar extends TileEntitySpecialRenderer {
 
     private RenderBlocks blockRenderer;
-    private TileEntityEssenceAltar altar;
     private long lastRotationUpdateTime;
     private short glyphRot, requiredItemRot;
     private double viewRot;
@@ -49,7 +48,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer {
         GL11.glScalef(0.5F, 0.5F, 0.5F);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 
-        altar = (TileEntityEssenceAltar) tile;
+        final TileEntityEssenceAltar altar = (TileEntityEssenceAltar) tile;
         viewRot = 180D + Math.toDegrees(
                 Math.atan2(
                         RenderManager.instance.viewerPosX - altar.xCoord - 0.5D,
@@ -62,14 +61,14 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer {
             lastRotationUpdateTime = time;
         }
 
-        renderAltar();
+        renderAltar(altar);
 
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
         GL11.glPopMatrix();
     }
 
-    private void renderAltar() {
+    private void renderAltar(TileEntityEssenceAltar altar) {
         byte stage = altar.getStage();
 
         if (stage == TileEntityEssenceAltar.STAGE_WORKING) {
