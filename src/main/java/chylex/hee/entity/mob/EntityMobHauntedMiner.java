@@ -491,7 +491,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob {
 
     @Override
     public void dropFewItems(boolean recentlyHit, int looting) {
-        for (int a = 0; a < rand.nextInt(2 + rand.nextInt(2) + looting); a++) dropItem(ItemList.infernium, 1);
+        dropItem(ItemList.infernium, rand.nextInt(2 + rand.nextInt(2) + looting));
     }
 
     @Override

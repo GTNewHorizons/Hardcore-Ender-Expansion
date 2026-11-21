@@ -138,14 +138,14 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
     @Override
     protected void dropFewItems(boolean recentlyHit, int looting) {
         int amount = rand.nextInt(2 + looting) - rand.nextInt(2);
-        for (int a = 0; a < amount; a++) dropItem(Items.ender_pearl, 1);
+        dropItem(Items.ender_pearl, amount);
 
         amount = 1 + rand.nextInt(3 + (looting >> 1));
-        for (int a = 0; a < amount; a++) dropItem(Item.getItemFromBlock(Blocks.obsidian), 1);
+        dropItem(Item.getItemFromBlock(Blocks.obsidian), amount);
 
         if (recentlyHit) {
             amount = rand.nextInt(4 - rand.nextInt(3) + (looting >> 1));
-            for (int a = 0; a < amount; a++) dropItem(ItemList.obsidian_fragment, 1);
+            dropItem(ItemList.obsidian_fragment, amount);
         }
     }
 
