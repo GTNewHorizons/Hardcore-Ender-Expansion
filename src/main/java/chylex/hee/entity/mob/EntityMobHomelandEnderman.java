@@ -1182,7 +1182,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
         Item item = getDropItem();
 
         if (item != null) {
-            for (int a = 0, total = rand.nextInt(2 + looting); a < total; a++) dropItem(item, 1);
+            dropItem(item, total = rand.nextInt(2 + looting));
         }
     }
 

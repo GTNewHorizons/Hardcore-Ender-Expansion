@@ -229,10 +229,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
     @Override
     protected void dropFewItems(boolean recentlyHit, int looting) {
         Item item = getDropItem();
-
-        if (item != null) {
-            for (int a = 0, amount = rand.nextInt(2 + looting); a < amount; a++) dropItem(item, 1);
-        }
+        if (item != null) dropItem(item, rand.nextInt(2 + looting));
     }
 
     @Override
