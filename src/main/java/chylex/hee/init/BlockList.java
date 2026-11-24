@@ -196,7 +196,7 @@ public final class BlockList {
         register(
                 "obsidian_special_glow",
                 obsidian_special_glow = new BlockObsidianSpecial(true).setHardness(28F).setResistance(2000F)
-                        .setLightLevel(1F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecial")
+                        .setLightLevel(1F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecialGlowing")
                         .setBlockTextureName("hardcoreenderexpansion:obsidian_smooth"));
         register(
                 "end_stone_terrain",
