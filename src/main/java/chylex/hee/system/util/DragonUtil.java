@@ -208,7 +208,7 @@ public final class DragonUtil {
             int split = EntityXPOrb.getXPSplit(a);
             a -= split;
             entity.worldObj
-                    .spawnEntityInWorld(new EntityXPOrb(entity.worldObj, entity.posX, entity.posY, entity.posZ, a));
+                    .spawnEntityInWorld(new EntityXPOrb(entity.worldObj, entity.posX, entity.posY, entity.posZ, split));
         }
     }
 
