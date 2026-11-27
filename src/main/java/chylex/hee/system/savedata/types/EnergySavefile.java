@@ -31,10 +31,10 @@ public class EnergySavefile extends WorldSavefile {
 
         if (setModified) setModified();
 
-        if (chunkX < 0) chunkX -= sectionSize - 1;
-        if (chunkZ < 0) chunkZ -= sectionSize - 1;
+        int sectionX = chunkX < 0 ? chunkX - (sectionSize - 1) : chunkX;
+        int sectionZ = chunkZ < 0 ? chunkZ - (sectionSize - 1) : chunkZ;
 
-        ChunkCoordIntPair coords = new ChunkCoordIntPair((chunkX + 1) / sectionSize, (chunkZ + 1) / sectionSize);
+        ChunkCoordIntPair coords = new ChunkCoordIntPair((sectionX + 1) / sectionSize, (sectionZ + 1) / sectionSize);
 
         EnergyChunkData data = chunkMap.get(coords);
         if (data != null) return data;
