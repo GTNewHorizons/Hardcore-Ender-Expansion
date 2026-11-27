@@ -94,6 +94,8 @@ public final class WorldDataHandler {
 
     @SubscribeEvent
     public void onWorldSave(WorldEvent.Save e) {
+        // Fires once per dimension; the data is global, so save only with the overworld.
+        if (e.world.isRemote || e.world.provider.dimensionId != 0) return;
         saveModified();
     }
 
